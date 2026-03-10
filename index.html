@@ -1,12 +1,510 @@
-.reviews{
-text-align:center;
-margin:20px;
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Diamond Shop</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+font-family:Arial;
 }
 
-.reviewBox{
-background:#1e293b;
-padding:15px;
-border-radius:12px;
-margin-top:10px;
-font-size:14px;
+body{
+margin:0;
+background:#020617;
+color:white;
+overflow-x:hidden;
 }
+
+/* header */
+
+.header{
+text-align:center;
+padding:18px;
+font-size:24px;
+font-weight:bold;
+}
+
+.notice{
+background:#f97316;
+text-align:center;
+padding:10px;
+}
+
+.online{
+text-align:center;
+color:#22c55e;
+margin-top:6px;
+}
+
+.wallet{
+text-align:center;
+margin:20px 0;
+}
+
+.addBtn{
+width:90%;
+max-width:420px;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#22c55e;
+color:white;
+font-size:16px;
+}
+
+/* cards */
+
+.container{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+padding:12px;
+max-width:480px;
+margin:auto;
+}
+
+.card{
+background:#1e293b;
+border-radius:14px;
+padding:16px;
+text-align:center;
+box-shadow:0 0 16px rgba(34,197,94,.2);
+}
+
+.price{
+color:#22c55e;
+font-size:20px;
+font-weight:bold;
+}
+
+.orderBtn{
+margin-top:10px;
+padding:10px;
+width:100%;
+border:none;
+border-radius:8px;
+background:#22c55e;
+color:white;
+}
+
+/* popup */
+
+.popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.8);
+justify-content:center;
+align-items:center;
+z-index:1000;
+}
+
+.form{
+background:#1e293b;
+padding:20px;
+border-radius:14px;
+width:90%;
+max-width:320px;
+text-align:center;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
+border:none;
+}
+
+.pay{
+display:flex;
+gap:10px;
+margin-top:10px;
+}
+
+.pay div{
+flex:1;
+padding:10px;
+border-radius:8px;
+text-align:center;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+#bkash{
+background:linear-gradient(135deg,#e2136e,#b80c88);
+}
+
+#nagad{
+background:#f97316;
+}
+
+.pay div.active{
+transform:scale(1.08);
+box-shadow:0 0 10px white;
+}
+
+/* buttons */
+
+.btn{
+margin-top:10px;
+padding:10px;
+width:100%;
+border:none;
+border-radius:8px;
+color:white;
+}
+
+.green{background:#22c55e}
+.red{background:#ef4444}
+.blue{background:#3b82f6}
+
+/* notification */
+
+.notify{
+position:fixed;
+top:70px;
+left:50%;
+transform:translateX(-50%);
+background:#1e293b;
+padding:12px 18px;
+border-radius:14px;
+font-size:13px;
+box-shadow:0 0 20px rgba(34,197,94,.6);
+display:none;
+z-index:2000;
+}
+
+/* loader */
+
+.loader{
+border:4px solid #1e293b;
+border-top:4px solid #22c55e;
+border-radius:50%;
+width:30px;
+height:30px;
+animation:spin 1s linear infinite;
+margin:15px auto;
+display:none;
+}
+
+@keyframes spin{
+0%{transform:rotate(0)}
+100%{transform:rotate(360deg)}
+}
+
+/* bottom nav */
+
+.bottomNav{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+display:flex;
+justify-content:space-around;
+background:#020617;
+padding:8px 0;
+border-top:1px solid #334155;
+}
+
+.bottomNav div{
+background:#1e293b;
+width:80px;
+height:55px;
+border-radius:12px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+font-size:12px;
+}
+
+.bottomNav div.active{
+background:#22c55e;
+}
+
+/* history */
+
+.history{
+display:none;
+padding:20px;
+}
+
+.historyItem{
+background:#1e293b;
+padding:12px;
+border-radius:10px;
+margin-top:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">💎 Diamond Shop</div>
+
+<div class="notice">Minimum Deposit 100৳</div>
+
+<div class="online">
+🟢 <span id="onlineUsers">12</span> users online
+</div>
+
+<div class="wallet">
+
+<h2>Balance: <span id="balance">0</span>৳</h2>
+
+<button class="addBtn" onclick="openBalance()">Add Balance</button>
+
+</div>
+
+<div class="container" id="shop">
+
+<div class="card">
+<h4>Weekly</h4>
+<p class="price">110৳</p>
+<button class="orderBtn" onclick="order('Weekly')">Order</button>
+</div>
+
+<div class="card">
+<h4>Monthly</h4>
+<p class="price">500৳</p>
+<button class="orderBtn" onclick="order('Monthly')">Order</button>
+</div>
+
+<div class="card">
+<h4>1240 💎</h4>
+<p class="price">400৳</p>
+<button class="orderBtn" onclick="order('1240 Diamonds')">Order</button>
+</div>
+
+<div class="card">
+<h4>2530 💎</h4>
+<p class="price">900৳</p>
+<button class="orderBtn" onclick="order('2530 Diamonds')">Order</button>
+</div>
+
+</div>
+
+<div class="history" id="history"></div>
+
+<div class="notify" id="notifyBox">
+<span id="notifyText"></span>
+</div>
+
+<div class="popup" id="balancePopup">
+
+<div class="form">
+
+<h3>Add Balance</h3>
+
+<input id="amount" placeholder="Enter Amount">
+
+<div class="pay">
+<div id="bkash" onclick="selectPay('bkash')">bKash</div>
+<div id="nagad" onclick="selectPay('nagad')">Nagad</div>
+</div>
+
+<button class="btn green" onclick="nextStep()">Next</button>
+
+<div class="loader" id="loader"></div>
+
+<div id="step2" style="display:none">
+
+<p>Send money to</p>
+
+<b>01810607626</b>
+
+<button class="btn blue" onclick="copyNumber()">Copy Number</button>
+
+<input id="trx" placeholder="Transaction ID">
+
+<button class="btn green" onclick="submitBalance()">Submit</button>
+
+<button class="btn red" onclick="closePopup()">Cancel</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="bottomNav">
+
+<div class="active" onclick="showShop()">🏠<br>Home</div>
+
+<div onclick="openBalance()">💰<br>Add</div>
+
+<div onclick="showHistory()">📦<br>History</div>
+
+</div>
+
+<script>
+
+let balance=0
+let orders=[]
+
+/* online users */
+
+setInterval(()=>{
+document.getElementById("onlineUsers").innerText=
+Math.floor(Math.random()*20)+5
+},4000)
+
+function showNotify(text){
+
+let box=document.getElementById("notifyBox")
+let txt=document.getElementById("notifyText")
+
+txt.innerText=text
+box.style.display="block"
+
+setTimeout(()=>{
+box.style.display="none"
+},2500)
+
+}
+
+let method=""
+
+function selectPay(m){
+
+method=m
+
+document.getElementById("bkash").classList.remove("active")
+document.getElementById("nagad").classList.remove("active")
+
+document.getElementById(m).classList.add("active")
+
+}
+
+function openBalance(){
+document.getElementById("balancePopup").style.display="flex"
+}
+
+function closePopup(){
+document.getElementById("balancePopup").style.display="none"
+}
+
+function nextStep(){
+
+let amount=document.getElementById("amount").value
+
+if(amount<100){
+showNotify("Minimum deposit 100৳ required")
+return
+}
+
+document.getElementById("loader").style.display="block"
+
+setTimeout(()=>{
+document.getElementById("loader").style.display="none"
+document.getElementById("step2").style.display="block"
+},1500)
+
+}
+
+function copyNumber(){
+navigator.clipboard.writeText("01810607626")
+showNotify("Number copied")
+}
+
+function submitBalance(){
+
+let trx=document.getElementById("trx").value
+
+if(trx==""){
+showNotify("Enter transaction ID")
+return
+}
+
+document.getElementById("loader").style.display="block"
+
+setTimeout(()=>{
+
+document.getElementById("loader").style.display="none"
+
+orders.push({
+type:"Deposit",
+trx:trx,
+status:"Pending"
+})
+
+updateHistory()
+
+showNotify("Balance request submitted")
+
+closePopup()
+
+},1500)
+
+}
+
+function order(pkg){
+
+if(balance<=0){
+
+showNotify("Please deposit balance first")
+
+return
+
+}
+
+orders.push({
+type:pkg,
+status:"Pending"
+})
+
+updateHistory()
+
+showNotify("Order placed")
+
+}
+
+function updateHistory(){
+
+let h=document.getElementById("history")
+
+h.innerHTML=""
+
+orders.forEach(o=>{
+
+h.innerHTML+=`
+<div class="historyItem">
+<b>${o.type}</b><br>
+Status: ${o.status}
+</div>
+`
+
+})
+
+}
+
+function showHistory(){
+
+document.getElementById("shop").style.display="none"
+document.getElementById("history").style.display="block"
+
+}
+
+function showShop(){
+
+document.getElementById("shop").style.display="grid"
+document.getElementById("history").style.display="none"
+
+}
+
+</script>
+
+</body>
+</html>
