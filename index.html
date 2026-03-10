@@ -1,85 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
-<title>Free Fire Diamond Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Diamond Shop</title>
 
 <style>
+
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
 font-family:Arial;
 color:white;
-background:linear-gradient(45deg,#020617,#0f172a,#020617);
-background-size:400% 400%;
-animation:bg 10s infinite alternate;
+overflow-x:hidden;
+background:linear-gradient(270deg,#020617,#0f172a,#020617);
+background-size:600% 600%;
+animation:bgMove 12s ease infinite;
 }
 
-@keyframes bg{
-0%{background-position:left}
-100%{background-position:right}
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
 
 .header{
 text-align:center;
-padding:20px;
-font-size:26px;
+padding:16px;
+font-size:22px;
 font-weight:bold;
 }
 
 .notice{
 text-align:center;
 background:#f97316;
-padding:10px;
-font-weight:bold;
+padding:8px;
+font-size:14px;
 }
 
 .wallet{
 text-align:center;
-margin:20px;
+padding:10px;
 }
 
 .container{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-padding:20px;
-max-width:900px;
+grid-template-columns:1fr 1fr;
+gap:12px;
+padding:12px;
+max-width:480px;
 margin:auto;
 }
 
 .card{
 background:#1e293b;
-padding:20px;
-border-radius:14px;
+border-radius:12px;
+padding:14px;
 text-align:center;
-box-shadow:0 0 15px rgba(0,255,255,0.3);
-transition:.3s;
+box-shadow:0 0 12px rgba(0,255,255,0.3);
+transition:0.3s;
+animation:cardFade .8s ease;
+}
+
+@keyframes cardFade{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 .card:hover{
-transform:scale(1.05);
-box-shadow:0 0 25px #22c55e;
+transform:scale(1.03);
+box-shadow:0 0 18px #22c55e;
 }
 
 .price{
 color:#22c55e;
-font-size:22px;
+font-size:18px;
 font-weight:bold;
 }
 
 .stock{
 color:#facc15;
+font-size:13px;
 }
 
 button{
-padding:10px 18px;
+width:100%;
+padding:8px;
+margin-top:8px;
 border:none;
 border-radius:6px;
 background:#22c55e;
 color:white;
-cursor:pointer;
-margin-top:10px;
+font-size:14px;
+}
+
+table{
+width:100%;
+max-width:480px;
+margin:auto;
+margin-top:15px;
+background:#1e293b;
+border-radius:10px;
+font-size:13px;
+}
+
+th,td{
+padding:8px;
+text-align:center;
 }
 
 .popup{
@@ -89,17 +127,31 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,.8);
+background:rgba(0,0,0,.85);
 justify-content:center;
 align-items:center;
+padding:20px;
 }
 
 .form{
 background:#1e293b;
-padding:25px;
-border-radius:10px;
-width:320px;
+padding:20px;
+border-radius:12px;
+width:100%;
+max-width:320px;
 text-align:center;
+animation:popup .3s ease;
+}
+
+@keyframes popup{
+from{
+transform:scale(.8);
+opacity:0;
+}
+to{
+transform:scale(1);
+opacity:1;
+}
 }
 
 input{
@@ -122,26 +174,12 @@ padding:10px;
 background:#334155;
 border-radius:6px;
 cursor:pointer;
+font-size:14px;
 }
 
 .pay .active{
 background:#22c55e;
 }
-
-table{
-width:90%;
-margin:20px auto;
-background:#1e293b;
-border-radius:10px;
-padding:10px;
-}
-
-th,td{
-padding:10px;
-text-align:center;
-}
-
-/* loading */
 
 .loader{
 display:none;
@@ -159,7 +197,7 @@ flex-direction:column;
 .spinner{
 width:40px;
 height:40px;
-border:4px solid #ccc;
+border:4px solid #ddd;
 border-top:4px solid #22c55e;
 border-radius:50%;
 animation:spin 1s linear infinite;
@@ -170,8 +208,6 @@ animation:spin 1s linear infinite;
 100%{transform:rotate(360deg)}
 }
 
-/* alert modal */
-
 .alert{
 display:none;
 position:fixed;
@@ -179,16 +215,17 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,.8);
+background:rgba(0,0,0,.85);
 justify-content:center;
 align-items:center;
 }
 
 .alertBox{
 background:#1e293b;
-padding:25px;
+padding:20px;
 border-radius:10px;
 text-align:center;
+width:260px;
 }
 
 </style>
@@ -197,281 +234,49 @@ text-align:center;
 
 <body>
 
-<div class="header">💎 Free Fire Diamond Shop</div>
+<div class="header">💎 Diamond Shop</div>
 
-<div class="notice">🔥 Limited Offer | Minimum Deposit 100৳</div>
+<div class="notice">Minimum Deposit 100৳</div>
 
 <div class="wallet">
-<h2>Wallet Balance: <span id="balance">0</span>৳</h2>
+
+<h3>Balance: <span id="balance">0</span>৳</h3>
+
 <button onclick="openBalance()">Add Balance</button>
+
 </div>
 
 <div class="container">
 
 <div class="card">
-<h3>Weekly Membership</h3>
+<h4>Weekly</h4>
 <p class="price">110৳</p>
-<p class="stock">Stock: <span id="weekly"></span></p>
-<button onclick="order('Weekly',110)">Order</button>
+<p class="stock">Stock: 100</p>
+<button>Order</button>
 </div>
 
 <div class="card">
-<h3>Monthly Membership</h3>
+<h4>Monthly</h4>
 <p class="price">500৳</p>
-<p class="stock">Stock: <span id="monthly"></span></p>
-<button onclick="order('Monthly',500)">Order</button>
+<p class="stock">Stock: 30</p>
+<button>Order</button>
 </div>
 
 <div class="card">
-<h3>1240 💎</h3>
+<h4>1240 💎</h4>
 <p class="price">400৳</p>
-<p class="stock">Stock: <span id="d1240"></span></p>
-<button onclick="order('1240 Diamonds',400)">Order</button>
+<p class="stock">Stock: 10</p>
+<button>Order</button>
 </div>
 
 <div class="card">
-<h3>2530 💎</h3>
+<h4>2530 💎</h4>
 <p class="price">900৳</p>
-<p class="stock">Stock: <span id="d2530"></span></p>
-<button onclick="order('2530 Diamonds',900)">Order</button>
+<p class="stock">Stock: 5</p>
+<button>Order</button>
 </div>
 
 </div>
-
-<h2 style="text-align:center">Order History</h2>
-
-<table id="orders">
-<tr><th>Package</th><th>Price</th><th>Status</th></tr>
-</table>
-
-<h2 style="text-align:center">Balance Requests</h2>
-
-<table id="balanceTable">
-<tr><th>Amount</th><th>Method</th><th>Transaction</th><th>Status</th></tr>
-</table>
-
-<!-- balance popup -->
-
-<div class="popup" id="balancePopup">
-
-<div class="form">
-
-<h3>Add Balance</h3>
-
-<input id="amount" placeholder="Enter Amount">
-
-<div class="pay">
-<div id="bkash" onclick="selectPay('bKash')">bKash</div>
-<div id="nagad" onclick="selectPay('Nagad')">Nagad</div>
-</div>
-
-<button onclick="nextStep()">Next</button>
-
-<div id="step2" style="display:none">
-
-<p>Send money to</p>
-<b>01810607626</b>
-
-<input id="trx" placeholder="Transaction ID">
-
-<button onclick="submitBalance()">Submit</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- loading -->
-
-<div class="loader" id="loader">
-
-<div class="spinner"></div>
-<p>Processing...</p>
-
-</div>
-
-<!-- alert -->
-
-<div class="alert" id="alertBox">
-
-<div class="alertBox">
-
-<p id="alertText"></p>
-
-<button onclick="closeAlert()">OK</button>
-
-</div>
-
-</div>
-
-<script>
-
-let balance=localStorage.getItem("balance")||0
-
-let stock=JSON.parse(localStorage.getItem("stock"))||{
-weekly:100,
-monthly:30,
-d1240:10,
-d2530:5
-}
-
-let orders=JSON.parse(localStorage.getItem("orders"))||[]
-let req=JSON.parse(localStorage.getItem("req"))||[]
-
-document.getElementById("balance").innerText=balance
-
-updateStock()
-renderOrders()
-renderReq()
-
-let method=""
-
-function selectPay(m){
-
-method=m
-
-document.getElementById("bkash").classList.remove("active")
-document.getElementById("nagad").classList.remove("active")
-
-document.getElementById(m.toLowerCase()).classList.add("active")
-
-}
-
-function openBalance(){
-document.getElementById("balancePopup").style.display="flex"
-}
-
-function nextStep(){
-
-let amount=document.getElementById("amount").value
-
-if(amount<100){
-
-showAlert("Minimum deposit 100৳ required")
-
-return
-
-}
-
-if(method==""){
-
-showAlert("Select payment method")
-
-return
-
-}
-
-document.getElementById("step2").style.display="block"
-
-}
-
-function submitBalance(){
-
-let amount=document.getElementById("amount").value
-let trx=document.getElementById("trx").value
-
-document.getElementById("loader").style.display="flex"
-
-setTimeout(()=>{
-
-req.push({amount:amount,method:method,trx:trx,status:"Pending"})
-
-localStorage.setItem("req",JSON.stringify(req))
-
-renderReq()
-
-document.getElementById("loader").style.display="none"
-
-document.getElementById("balancePopup").style.display="none"
-
-showAlert("Balance request submitted")
-
-},1500)
-
-}
-
-function order(pkg,price){
-
-if(balance<price){
-
-showAlert("Not enough balance")
-
-return
-
-}
-
-balance-=price
-
-orders.push({package:pkg,price:price,status:"Pending"})
-
-localStorage.setItem("balance",balance)
-localStorage.setItem("orders",JSON.stringify(orders))
-
-document.getElementById("balance").innerText=balance
-
-renderOrders()
-
-}
-
-function updateStock(){
-
-document.getElementById("weekly").innerText=stock.weekly
-document.getElementById("monthly").innerText=stock.monthly
-document.getElementById("d1240").innerText=stock.d1240
-document.getElementById("d2530").innerText=stock.d2530
-
-}
-
-function renderOrders(){
-
-let t=document.getElementById("orders")
-
-t.innerHTML="<tr><th>Package</th><th>Price</th><th>Status</th></tr>"
-
-orders.forEach(o=>{
-
-let r=t.insertRow()
-
-r.insertCell(0).innerText=o.package
-r.insertCell(1).innerText=o.price+"৳"
-r.insertCell(2).innerText=o.status
-
-})
-
-}
-
-function renderReq(){
-
-let t=document.getElementById("balanceTable")
-
-t.innerHTML="<tr><th>Amount</th><th>Method</th><th>Transaction</th><th>Status</th></tr>"
-
-req.forEach(b=>{
-
-let r=t.insertRow()
-
-r.insertCell(0).innerText=b.amount+"৳"
-r.insertCell(1).innerText=b.method
-r.insertCell(2).innerText=b.trx
-r.insertCell(3).innerText=b.status
-
-})
-
-}
-
-function showAlert(msg){
-
-document.getElementById("alertText").innerText=msg
-document.getElementById("alertBox").style.display="flex"
-
-}
-
-function closeAlert(){
-document.getElementById("alertBox").style.display="none"
-}
-
-</script>
 
 </body>
 </html>
