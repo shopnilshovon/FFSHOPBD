@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Diamond Top-Up</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#020617,#0f172a);
+color:white;
+}
+
+.header{
+text-align:center;
+padding:20px;
+font-size:28px;
+font-weight:bold;
+background:#020617;
+}
+
+.notice{
+text-align:center;
+background:#f97316;
+padding:10px;
+font-weight:bold;
+}
+
+.container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:30px;
+max-width:900px;
+margin:auto;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 0 12px rgba(0,0,0,0.5);
+transition:0.3s;
+}
+
+.card:hover{
+transform:scale(1.05);
+}
+
+.price{
+font-size:22px;
+color:#22c55e;
+font-weight:bold;
+}
+
+.stock{
+color:#facc15;
+}
+
+button{
+margin-top:10px;
+padding:10px 20px;
+background:#22c55e;
+border:none;
+border-radius:6px;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#16a34a;
+}
+
+.popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+justify-content:center;
+align-items:center;
+}
+
+.form{
+background:#1e293b;
+padding:25px;
+border-radius:10px;
+width:300px;
+text-align:center;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
+border:none;
+border-radius:6px;
+}
+
+.copy{
+background:#3b82f6;
+}
+
+.close{
+background:red;
+margin-top:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+💎 Free Fire Diamond Shop
+</div>
+
+<div class="notice">
+🔥 Limited Time Offer | Minimum Deposit: 100৳
+</div>
+
+<div class="container">
+
+<div class="card">
+<h3>Weekly Membership</h3>
+<p class="price">110৳</p>
+<p class="stock">Stock: 100 pcs</p>
+<button onclick="openForm('Weekly Membership')">Order</button>
+</div>
+
+<div class="card">
+<h3>Monthly Membership</h3>
+<p class="price">500৳</p>
+<p class="stock">Stock: 30 pcs</p>
+<button onclick="openForm('Monthly Membership')">Order</button>
+</div>
+
+<div class="card">
+<h3>1240 💎</h3>
+<p class="price">400৳</p>
+<p class="stock">Stock: 10 pcs</p>
+<button onclick="openForm('1240 Diamonds')">Order</button>
+</div>
+
+<div class="card">
+<h3>2530 💎</h3>
+<p class="price">900৳</p>
+<p class="stock">Stock: 5 pcs</p>
+<button onclick="openForm('2530 Diamonds')">Order</button>
+</div>
+
+</div>
+
+<div class="popup" id="popup">
+
+<div class="form">
+
+<h3 id="package"></h3>
+
+<p>Send Payment To</p>
+<b id="number">01810607626</b>
+
+<button class="copy" onclick="copyNumber()">Copy Number</button>
+
+<input placeholder="Player ID">
+
+<input placeholder="Transaction ID">
+
+<button onclick="submitOrder()">Submit</button>
+
+<button class="close" onclick="closeForm()">Close</button>
+
+</div>
+
+</div>
+
+<script>
+
+function openForm(pkg){
+document.getElementById("popup").style.display="flex"
+document.getElementById("package").innerText=pkg
+}
+
+function closeForm(){
+document.getElementById("popup").style.display="none"
+}
+
+function copyNumber(){
+navigator.clipboard.writeText("01810607626")
+alert("Number Copied")
+}
+
+function submitOrder(){
+alert("Order Submitted")
+closeForm()
+}
+
+</script>
+
+</body>
+</html>
