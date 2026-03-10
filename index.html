@@ -9,17 +9,25 @@ font-family:Arial;
 
 body{
 margin:0;
+background:#020617;
 color:white;
-background:linear-gradient(270deg,#020617,#0f172a,#020617);
-background-size:400% 400%;
-animation:bgMove 12s ease infinite;
 overflow-x:hidden;
 }
 
-@keyframes bgMove{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
+/* animated particles */
+
+.particle{
+position:fixed;
+width:3px;
+height:3px;
+background:#22c55e;
+opacity:.6;
+animation:particles 12s linear infinite;
+}
+
+@keyframes particles{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-10vh)}
 }
 
 /* floating diamonds */
@@ -28,12 +36,12 @@ overflow-x:hidden;
 position:fixed;
 font-size:18px;
 opacity:.35;
-animation:floatDiamond 14s linear infinite;
+animation:diamondFloat 15s linear infinite;
 }
 
-@keyframes floatDiamond{
-0%{transform:translateY(100vh) rotate(0)}
-100%{transform:translateY(-10vh) rotate(360deg)}
+@keyframes diamondFloat{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-10vh)}
 }
 
 /* header */
@@ -43,8 +51,6 @@ text-align:center;
 padding:18px;
 font-size:24px;
 font-weight:bold;
-background:rgba(0,0,0,.3);
-backdrop-filter:blur(6px);
 }
 
 /* notice */
@@ -55,19 +61,21 @@ text-align:center;
 padding:10px;
 }
 
+/* timer */
+
+.timer{
+text-align:center;
+font-size:14px;
+color:#facc15;
+margin-top:5px;
+}
+
 /* online */
 
 .online{
 text-align:center;
 color:#22c55e;
 margin-top:6px;
-animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-0%{opacity:.6}
-50%{opacity:1}
-100%{opacity:.6}
 }
 
 /* wallet */
@@ -86,12 +94,6 @@ border-radius:8px;
 background:#22c55e;
 color:white;
 font-size:16px;
-box-shadow:0 0 12px rgba(34,197,94,.4);
-transition:.3s;
-}
-
-.addBtn:hover{
-transform:scale(1.03);
 }
 
 /* cards */
@@ -110,13 +112,11 @@ background:#1e293b;
 border-radius:14px;
 padding:16px;
 text-align:center;
-box-shadow:0 0 14px rgba(0,0,0,.6);
 transition:.3s;
 }
 
 .card:hover{
-transform:translateY(-5px) scale(1.03);
-box-shadow:0 0 18px rgba(34,197,94,.6);
+transform:scale(1.03);
 }
 
 .price{
@@ -130,6 +130,21 @@ font-size:12px;
 color:#facc15;
 }
 
+.barBox{
+background:#0f172a;
+height:6px;
+border-radius:6px;
+margin-top:5px;
+overflow:hidden;
+}
+
+.bar{
+height:6px;
+background:#22c55e;
+width:100%;
+transition:.4s;
+}
+
 .orderBtn{
 margin-top:10px;
 padding:10px;
@@ -138,12 +153,6 @@ border:none;
 border-radius:8px;
 background:#22c55e;
 color:white;
-transition:.3s;
-}
-
-.orderBtn:hover{
-background:#16a34a;
-transform:scale(1.03);
 }
 
 /* popup */
@@ -167,13 +176,6 @@ border-radius:14px;
 width:90%;
 max-width:320px;
 text-align:center;
-box-shadow:0 0 20px rgba(0,0,0,.7);
-animation:popupIn .3s ease;
-}
-
-@keyframes popupIn{
-from{transform:scale(.8);opacity:0}
-to{transform:scale(1);opacity:1}
 }
 
 input{
@@ -183,8 +185,6 @@ margin-top:10px;
 border-radius:8px;
 border:none;
 }
-
-/* pay buttons */
 
 .pay{
 display:flex;
@@ -261,12 +261,21 @@ border-radius:14px;
 font-size:13px;
 box-shadow:0 0 20px rgba(34,197,94,.6);
 display:none;
-animation:notifyIn .3s ease;
 }
 
-@keyframes notifyIn{
-from{opacity:0;transform:translate(-50%,-20px)}
-to{opacity:1;transform:translate(-50%,0)}
+/* reviews */
+
+.reviews{
+margin:20px auto;
+max-width:420px;
+text-align:center;
+}
+
+.reviewBox{
+background:#1e293b;
+padding:12px;
+border-radius:10px;
+font-size:13px;
 }
 
 /* bottom nav */
@@ -293,18 +302,11 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 font-size:12px;
-transition:.3s;
-}
-
-.bottomNav div:hover{
-transform:scale(1.05);
 }
 
 .bottomNav div.active{
 background:#22c55e;
 }
-
-/* history */
 
 .history{
 display:none;
@@ -318,10 +320,210 @@ border-radius:10px;
 margin-top:10px;
 }
 
-</style></head><body><!-- floating diamonds --><div class="diamond" style="left:10%">💎</div>
-<div class="diamond" style="left:35%">💎</div>
-<div class="diamond" style="left:60%">💎</div>
-<div class="diamond" style="left:85%">💎</div><!-- (এখান থেকে নিচে তোমার original HTML একদম unchanged) -->... (এখানে তোমার পুরো HTML এবং JS আগের মতোই থাকবে, কিছুই পরিবর্তন করা হয়নি)
+</style></head><body><!-- particles --><script>
+for(let i=0;i<30;i++){
+let p=document.createElement("div")
+p.className="particle"
+p.style.left=Math.random()*100+"%"
+document.body.appendChild(p)
+}
+</script><div class="diamond" style="left:20%">💎</div>
+<div class="diamond" style="left:60%">💎</div><div class="header">💎 Diamond Shop</div><div class="notice">Limited Offer</div><div class="timer">
+Offer ends in <span id="timer">10:00</span>
+</div><div class="online">
+🟢 <span id="onlineUsers">10</span> users online
+</div><div class="wallet">
+<h2>Balance: <span id="balance">0</span>৳</h2>
+<button class="addBtn" onclick="openBalance()">Add Balance</button>
+</div><div class="container" id="shop"><div class="card">
+<h4>Weekly</h4>
+<p class="price">110৳</p>
+<p class="stock">Stock: <span id="stock1">100</span></p>
+<div class="barBox"><div class="bar" id="bar1"></div></div>
+<button class="orderBtn" onclick="order('Weekly','stock1','bar1',100)">Order</button>
+</div><div class="card">
+<h4>Monthly</h4>
+<p class="price">500৳</p>
+<p class="stock">Stock: <span id="stock2">30</span></p>
+<div class="barBox"><div class="bar" id="bar2"></div></div>
+<button class="orderBtn" onclick="order('Monthly','stock2','bar2',30)">Order</button>
+</div><div class="card">
+<h4>1240 💎</h4>
+<p class="price">400৳</p>
+<p class="stock">Stock: <span id="stock3">10</span></p>
+<div class="barBox"><div class="bar" id="bar3"></div></div>
+<button class="orderBtn" onclick="order('1240 Diamonds','stock3','bar3',10)">Order</button>
+</div><div class="card">
+<h4>2530 💎</h4>
+<p class="price">900৳</p>
+<p class="stock">Stock: <span id="stock4">5</span></p>
+<div class="barBox"><div class="bar" id="bar4"></div></div>
+<button class="orderBtn" onclick="order('2530 Diamonds','stock4','bar4',5)">Order</button>
+</div></div><div class="reviews">
+<div class="reviewBox" id="reviewBox">⭐ Great service - Rahim</div>
+</div><div class="notify" id="notifyBox">
+<span id="notifyText"></span>
+</div><!-- balance popup --><div class="popup" id="balancePopup"><div class="form"><h3>Add Balance</h3><input id="amount" placeholder="Enter Amount"><div class="pay">
+<div id="bkash" onclick="selectPay('bkash')">bKash</div>
+<div id="nagad" onclick="selectPay('nagad')">Nagad</div>
+</div><button class="btn green" onclick="nextStep()">Next</button>
 
-</body>
+<div class="loader" id="loader"></div><div id="step2" style="display:none"><p>Send money to</p><b>01810607626</b>
+
+<button class="btn blue" onclick="copyNumber()">Copy Number</button>
+
+<input id="trx" placeholder="Transaction ID"><button class="btn green" onclick="submitBalance()">Submit</button>
+
+<button class="btn red" onclick="closePopup()">Cancel</button>
+
+</div></div></div><div class="bottomNav">
+<div class="active" onclick="showShop()">🏠<br>Home</div>
+<div onclick="openBalance()">💰<br>Add</div>
+<div onclick="showHistory()">📦<br>History</div>
+</div><script>
+
+let balance=0
+let orders=[]
+let method=""
+
+/* random names */
+
+let names=[
+"Rahim","Karim","Sakib","Jahid","Naim","Rifat","Sohel","Rakib","Tanvir","Sohan",
+"Rony","Shanto","Mahin","Sabbir","Imran","Arif","Nayeem","Hasan","Saif","Rasel",
+"Riad","Siam","Tarek","Rubel","Jamal","Kamrul","Rafi","Minhaz","Akash","Shuvo",
+"Fahim","Bappy","Sumon","Sakil","Noman","Ratul","Sajid","Shamim","Tuhin","Riadul",
+"Parvez","Tanzim","Fardin","Hridoy","Arafat","Shahin","Asif","Nadim","Tajim","Sadi"
+]
+
+/* fake purchase popup */
+
+setInterval(()=>{
+let n=names[Math.floor(Math.random()*names.length)]
+let packs=["Weekly","Monthly","1240 Diamonds","2530 Diamonds"]
+let p=packs[Math.floor(Math.random()*packs.length)]
+
+showNotify(n+" purchased "+p)
+
+},6000)
+
+/* reviews */
+
+let reviews=[
+"⭐ Fast delivery!",
+"⭐ Trusted shop!",
+"⭐ Best price!",
+"⭐ Instant topup!",
+"⭐ Highly recommended!"
+]
+
+setInterval(()=>{
+document.getElementById("reviewBox").innerText=
+reviews[Math.floor(Math.random()*reviews.length)]
+},4000)
+
+/* countdown */
+
+let time=600
+setInterval(()=>{
+time--
+let m=Math.floor(time/60)
+let s=time%60
+document.getElementById("timer").innerText=m+":"+s
+},1000)
+
+/* online users */
+
+setInterval(()=>{
+document.getElementById("onlineUsers").innerText=
+Math.floor(Math.random()*20)+5
+},4000)
+
+/* notify */
+
+function showNotify(text){
+let box=document.getElementById("notifyBox")
+document.getElementById("notifyText").innerText=text
+box.style.display="block"
+setTimeout(()=>{box.style.display="none"},2500)
+}
+
+/* payment select */
+
+function selectPay(m){
+method=m
+document.getElementById("bkash").classList.remove("active")
+document.getElementById("nagad").classList.remove("active")
+document.getElementById(m).classList.add("active")
+}
+
+function openBalance(){
+document.getElementById("balancePopup").style.display="flex"
+}
+
+function closePopup(){
+document.getElementById("balancePopup").style.display="none"
+}
+
+function nextStep(){
+let amount=document.getElementById("amount").value
+if(amount<100){
+showNotify("Minimum deposit 100৳ required")
+return
+}
+document.getElementById("loader").style.display="block"
+setTimeout(()=>{
+document.getElementById("loader").style.display="none"
+document.getElementById("step2").style.display="block"
+},1200)
+}
+
+function copyNumber(){
+navigator.clipboard.writeText("01810607626")
+showNotify("Number copied")
+}
+
+function submitBalance(){
+
+let trx=document.getElementById("trx").value
+
+if(trx==""){
+showNotify("Enter transaction ID")
+return
+}
+
+orders.push({
+type:"Deposit",
+trx:trx,
+status:"Pending"
+})
+
+showNotify("Deposit request submitted")
+
+closePopup()
+
+}
+
+/* order */
+
+function order(pkg,stockId,barId,max){
+
+let stock=document.getElementById(stockId)
+let current=parseInt(stock.innerText)
+
+if(current<=0){
+showNotify("Out of stock")
+return
+}
+
+stock.innerText=current-1
+
+let percent=((current-1)/max)*100
+document.getElementById(barId).style.width=percent+"%"
+
+showNotify(pkg+" order placed")
+
+}
+
+</script></body>
 </html>
