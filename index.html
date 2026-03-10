@@ -2,10 +2,7 @@
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Diamond Shop</title><style>
 
-*{
-box-sizing:border-box;
-font-family:Arial;
-}
+*{box-sizing:border-box;font-family:Arial}
 
 body{
 margin:0;
@@ -14,7 +11,7 @@ color:white;
 overflow-x:hidden;
 }
 
-/* animated particles */
+/* particles */
 
 .particle{
 position:fixed;
@@ -35,8 +32,8 @@ animation:particles 12s linear infinite;
 .diamond{
 position:fixed;
 font-size:18px;
-opacity:.35;
-animation:diamondFloat 15s linear infinite;
+opacity:.4;
+animation:diamondFloat 14s linear infinite;
 }
 
 @keyframes diamondFloat{
@@ -53,24 +50,17 @@ font-size:24px;
 font-weight:bold;
 }
 
-/* notice */
-
 .notice{
 background:#f97316;
 text-align:center;
 padding:10px;
 }
 
-/* timer */
-
 .timer{
 text-align:center;
-font-size:14px;
 color:#facc15;
-margin-top:5px;
+margin-top:4px;
 }
-
-/* online */
 
 .online{
 text-align:center;
@@ -80,10 +70,7 @@ margin-top:6px;
 
 /* wallet */
 
-.wallet{
-text-align:center;
-margin:20px 0;
-}
+.wallet{text-align:center;margin:20px 0}
 
 .addBtn{
 width:90%;
@@ -115,26 +102,17 @@ text-align:center;
 transition:.3s;
 }
 
-.card:hover{
-transform:scale(1.03);
-}
+.card:hover{transform:scale(1.03)}
 
-.price{
-color:#22c55e;
-font-size:20px;
-font-weight:bold;
-}
+.price{color:#22c55e;font-size:20px;font-weight:bold}
 
-.stock{
-font-size:12px;
-color:#facc15;
-}
+.stock{font-size:12px;color:#facc15}
 
 .barBox{
 background:#0f172a;
 height:6px;
 border-radius:6px;
-margin-top:5px;
+margin-top:6px;
 overflow:hidden;
 }
 
@@ -142,7 +120,7 @@ overflow:hidden;
 height:6px;
 background:#22c55e;
 width:100%;
-transition:.4s;
+transition:.3s;
 }
 
 .orderBtn{
@@ -176,7 +154,18 @@ border-radius:14px;
 width:90%;
 max-width:320px;
 text-align:center;
+position:relative;
 }
+
+.closeBtn{
+position:absolute;
+right:12px;
+top:8px;
+font-size:18px;
+cursor:pointer;
+}
+
+/* inputs */
 
 input{
 width:100%;
@@ -186,36 +175,21 @@ border-radius:8px;
 border:none;
 }
 
-.pay{
-display:flex;
-gap:10px;
-margin-top:10px;
-}
+.pay{display:flex;gap:10px;margin-top:10px}
 
 .pay div{
 flex:1;
 padding:10px;
 border-radius:8px;
 text-align:center;
-color:white;
 font-weight:bold;
 cursor:pointer;
 }
 
-#bkash{
-background:linear-gradient(135deg,#e2136e,#b80c88);
-}
+#bkash{background:linear-gradient(135deg,#e2136e,#b80c88)}
+#nagad{background:#f97316}
 
-#nagad{
-background:#f97316;
-}
-
-.pay div.active{
-transform:scale(1.05);
-box-shadow:0 0 10px white;
-}
-
-/* buttons */
+.pay div.active{transform:scale(1.05);box-shadow:0 0 10px white}
 
 .btn{
 margin-top:10px;
@@ -243,10 +217,7 @@ margin:15px auto;
 display:none;
 }
 
-@keyframes spin{
-0%{transform:rotate(0)}
-100%{transform:rotate(360deg)}
-}
+@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
 
 /* notify */
 
@@ -304,14 +275,9 @@ align-items:center;
 font-size:12px;
 }
 
-.bottomNav div.active{
-background:#22c55e;
-}
+.bottomNav div.active{background:#22c55e}
 
-.history{
-display:none;
-padding:20px;
-}
+.history{display:none;padding:20px}
 
 .historyItem{
 background:#1e293b;
@@ -320,19 +286,16 @@ border-radius:10px;
 margin-top:10px;
 }
 
-</style></head><body><!-- particles --><script>
-for(let i=0;i<30;i++){
+</style></head><body><script>
+for(let i=0;i<40;i++){
 let p=document.createElement("div")
 p.className="particle"
 p.style.left=Math.random()*100+"%"
 document.body.appendChild(p)
 }
 </script><div class="diamond" style="left:20%">💎</div>
-<div class="diamond" style="left:60%">💎</div><div class="header">💎 Diamond Shop</div><div class="notice">Limited Offer</div><div class="timer">
-Offer ends in <span id="timer">10:00</span>
-</div><div class="online">
-🟢 <span id="onlineUsers">10</span> users online
-</div><div class="wallet">
+<div class="diamond" style="left:70%">💎</div><div class="header">💎 Diamond Shop</div><div class="notice">Limited Offer</div>
+<div class="timer">Offer ends in <span id="timer">10:00</span></div><div class="online">🟢 <span id="onlineUsers">10</span> users online</div><div class="wallet">
 <h2>Balance: <span id="balance">0</span>৳</h2>
 <button class="addBtn" onclick="openBalance()">Add Balance</button>
 </div><div class="container" id="shop"><div class="card">
@@ -340,30 +303,33 @@ Offer ends in <span id="timer">10:00</span>
 <p class="price">110৳</p>
 <p class="stock">Stock: <span id="stock1">100</span></p>
 <div class="barBox"><div class="bar" id="bar1"></div></div>
-<button class="orderBtn" onclick="order('Weekly','stock1','bar1',100)">Order</button>
+<button class="orderBtn" onclick="order('Weekly','stock1','bar1',100,110)">Order</button>
 </div><div class="card">
 <h4>Monthly</h4>
 <p class="price">500৳</p>
 <p class="stock">Stock: <span id="stock2">30</span></p>
 <div class="barBox"><div class="bar" id="bar2"></div></div>
-<button class="orderBtn" onclick="order('Monthly','stock2','bar2',30)">Order</button>
+<button class="orderBtn" onclick="order('Monthly','stock2','bar2',30,500)">Order</button>
 </div><div class="card">
 <h4>1240 💎</h4>
 <p class="price">400৳</p>
 <p class="stock">Stock: <span id="stock3">10</span></p>
 <div class="barBox"><div class="bar" id="bar3"></div></div>
-<button class="orderBtn" onclick="order('1240 Diamonds','stock3','bar3',10)">Order</button>
+<button class="orderBtn" onclick="order('1240 Diamonds','stock3','bar3',10,400)">Order</button>
 </div><div class="card">
 <h4>2530 💎</h4>
 <p class="price">900৳</p>
 <p class="stock">Stock: <span id="stock4">5</span></p>
 <div class="barBox"><div class="bar" id="bar4"></div></div>
-<button class="orderBtn" onclick="order('2530 Diamonds','stock4','bar4',5)">Order</button>
+<button class="orderBtn" onclick="order('2530 Diamonds','stock4','bar4',5,900)">Order</button>
 </div></div><div class="reviews">
-<div class="reviewBox" id="reviewBox">⭐ Great service - Rahim</div>
+<div class="reviewBox" id="reviewBox">⭐ Great service!</div>
 </div><div class="notify" id="notifyBox">
 <span id="notifyText"></span>
-</div><!-- balance popup --><div class="popup" id="balancePopup"><div class="form"><h3>Add Balance</h3><input id="amount" placeholder="Enter Amount"><div class="pay">
+</div><!-- popup --><div class="popup" id="balancePopup">
+<div class="form"><span class="closeBtn" onclick="closePopup()">✕</span>
+
+<h3>Add Balance</h3><input id="amount" placeholder="Enter Amount"><div class="pay">
 <div id="bkash" onclick="selectPay('bkash')">bKash</div>
 <div id="nagad" onclick="selectPay('nagad')">Nagad</div>
 </div><button class="btn green" onclick="nextStep()">Next</button>
@@ -376,14 +342,10 @@ Offer ends in <span id="timer">10:00</span>
 
 <button class="btn red" onclick="closePopup()">Cancel</button>
 
-</div></div></div><div class="bottomNav">
-<div class="active" onclick="showShop()">🏠<br>Home</div>
-<div onclick="openBalance()">💰<br>Add</div>
-<div onclick="showHistory()">📦<br>History</div>
+</div></div>
 </div><script>
 
 let balance=0
-let orders=[]
 let method=""
 
 /* random names */
@@ -396,15 +358,13 @@ let names=[
 "Parvez","Tanzim","Fardin","Hridoy","Arafat","Shahin","Asif","Nadim","Tajim","Sadi"
 ]
 
-/* fake purchase popup */
+/* fake purchase */
 
 setInterval(()=>{
 let n=names[Math.floor(Math.random()*names.length)]
 let packs=["Weekly","Monthly","1240 Diamonds","2530 Diamonds"]
 let p=packs[Math.floor(Math.random()*packs.length)]
-
 showNotify(n+" purchased "+p)
-
 },6000)
 
 /* reviews */
@@ -422,7 +382,7 @@ document.getElementById("reviewBox").innerText=
 reviews[Math.floor(Math.random()*reviews.length)]
 },4000)
 
-/* countdown */
+/* timer */
 
 let time=600
 setInterval(()=>{
@@ -432,7 +392,7 @@ let s=time%60
 document.getElementById("timer").innerText=m+":"+s
 },1000)
 
-/* online users */
+/* online */
 
 setInterval(()=>{
 document.getElementById("onlineUsers").innerText=
@@ -447,8 +407,6 @@ document.getElementById("notifyText").innerText=text
 box.style.display="block"
 setTimeout(()=>{box.style.display="none"},2500)
 }
-
-/* payment select */
 
 function selectPay(m){
 method=m
@@ -484,29 +442,22 @@ showNotify("Number copied")
 }
 
 function submitBalance(){
+let amount=Number(document.getElementById("amount").value)
+balance+=amount
+document.getElementById("balance").innerText=balance
+showNotify("Balance added")
+closePopup()
+}
 
-let trx=document.getElementById("trx").value
+function order(pkg,stockId,barId,max,price){
 
-if(trx==""){
-showNotify("Enter transaction ID")
+if(balance < price){
+showNotify("Insufficient balance")
 return
 }
 
-orders.push({
-type:"Deposit",
-trx:trx,
-status:"Pending"
-})
-
-showNotify("Deposit request submitted")
-
-closePopup()
-
-}
-
-/* order */
-
-function order(pkg,stockId,barId,max){
+balance-=price
+document.getElementById("balance").innerText=balance
 
 let stock=document.getElementById(stockId)
 let current=parseInt(stock.innerText)
