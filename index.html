@@ -9,17 +9,19 @@
 
 <style>
 
-*{box-sizing:border-box}
+*{
+box-sizing:border-box;
+font-family:Arial;
+}
 
 body{
 margin:0;
-font-family:Arial;
 background:#020617;
 color:white;
 overflow-x:hidden;
 }
 
-/* particles */
+/* particle background */
 
 .particles span{
 position:fixed;
@@ -27,16 +29,16 @@ width:4px;
 height:4px;
 background:#22c55e;
 border-radius:50%;
-animation:particle 12s linear infinite;
-opacity:.5;
+animation:particles 12s linear infinite;
+opacity:.6;
 }
 
-@keyframes particle{
+@keyframes particles{
 0%{transform:translateY(100vh)}
 100%{transform:translateY(-10vh)}
 }
 
-/* diamonds */
+/* floating diamonds */
 
 .diamond{
 position:fixed;
@@ -52,27 +54,40 @@ opacity:.6;
 
 .header{
 text-align:center;
-padding:16px;
-font-size:22px;
+padding:18px;
+font-size:24px;
 font-weight:bold;
 }
 
 .notice{
 background:#f97316;
 text-align:center;
-padding:8px;
+padding:10px;
 }
 
 .online{
 text-align:center;
 color:#22c55e;
-font-size:13px;
+margin-top:6px;
 }
 
 .wallet{
 text-align:center;
-padding:10px;
+margin:20px 0;
 }
+
+.addBtn{
+width:90%;
+max-width:420px;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#22c55e;
+color:white;
+font-size:16px;
+}
+
+/* cards */
 
 .container{
 display:grid;
@@ -85,15 +100,15 @@ margin:auto;
 
 .card{
 background:#1e293b;
-border-radius:12px;
-padding:14px;
+border-radius:14px;
+padding:16px;
 text-align:center;
-box-shadow:0 0 10px rgba(34,197,94,.3);
+box-shadow:0 0 16px rgba(34,197,94,.2);
 }
 
 .price{
 color:#22c55e;
-font-size:18px;
+font-size:20px;
 font-weight:bold;
 }
 
@@ -106,8 +121,8 @@ color:#facc15;
 background:#0f172a;
 height:6px;
 border-radius:6px;
+margin-top:8px;
 overflow:hidden;
-margin-top:6px;
 }
 
 .bar{
@@ -115,36 +130,17 @@ height:6px;
 background:#22c55e;
 }
 
-button{
-width:100%;
+.orderBtn{
+margin-top:10px;
 padding:10px;
+width:100%;
 border:none;
-border-radius:6px;
+border-radius:8px;
 background:#22c55e;
 color:white;
-margin-top:8px;
 }
 
-.pay{
-display:flex;
-gap:10px;
-margin-top:10px;
-}
-
-.pay div{
-flex:1;
-padding:10px;
-background:#334155;
-border-radius:6px;
-text-align:center;
-cursor:pointer;
-transition:.3s;
-}
-
-.pay div.active{
-background:#22c55e;
-transform:scale(1.05);
-}
+/* popup */
 
 .popup{
 display:none;
@@ -156,12 +152,13 @@ height:100%;
 background:rgba(0,0,0,.8);
 justify-content:center;
 align-items:center;
+z-index:1000;
 }
 
 .form{
 background:#1e293b;
 padding:20px;
-border-radius:10px;
+border-radius:14px;
 width:90%;
 max-width:320px;
 text-align:center;
@@ -171,36 +168,70 @@ input{
 width:100%;
 padding:10px;
 margin-top:10px;
-border-radius:6px;
+border-radius:8px;
 border:none;
 }
 
-/* ticker */
+.pay{
+display:flex;
+gap:10px;
+margin-top:10px;
+}
 
-.ticker{
-position:fixed;
-bottom:80px;
-left:50%;
-transform:translateX(-50%);
-background:#1e293b;
-padding:8px 14px;
+.pay div{
+flex:1;
+padding:10px;
 border-radius:8px;
-font-size:13px;
+text-align:center;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* bkash nagad colors */
+
+#bkash{
+background:linear-gradient(135deg,#e2136e,#b80c88);
+}
+
+#nagad{
+background:#f97316;
+}
+
+.pay div.active{
+transform:scale(1.08);
+box-shadow:0 0 10px rgba(255,255,255,.5);
+}
+
+.copyBtn{
+background:#3b82f6;
+margin-top:10px;
+}
+
+.submitBtn{
+background:#22c55e;
+margin-top:10px;
+}
+
+.cancelBtn{
+background:#ef4444;
+margin-top:10px;
 }
 
 /* notification */
 
 .notify{
 position:fixed;
-top:20px;
+top:70px;
 left:50%;
 transform:translateX(-50%);
 background:#1e293b;
-padding:10px 16px;
-border-radius:10px;
+padding:12px 18px;
+border-radius:14px;
 font-size:13px;
-box-shadow:0 0 12px rgba(34,197,94,.5);
+box-shadow:0 0 20px rgba(34,197,94,.6);
 display:none;
+z-index:2000;
 }
 
 /* bottom nav */
@@ -227,17 +258,13 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 font-size:12px;
-cursor:pointer;
-transition:.3s;
 }
 
-.bottomNav div:hover{
+.bottomNav div.active{
 background:#22c55e;
-transform:translateY(-3px);
 }
 
 </style>
-
 </head>
 
 <body>
@@ -251,23 +278,20 @@ transform:translateY(-3px);
 </div>
 
 <div class="diamond" style="left:20%">💎</div>
-<div class="diamond" style="left:50%">💎</div>
-<div class="diamond" style="left:80%">💎</div>
+<div class="diamond" style="left:60%">💎</div>
 
 <div class="header">💎 Diamond Shop</div>
 
 <div class="notice">Minimum Deposit 100৳</div>
 
 <div class="online">
-🟢 <span id="onlineUsers">12</span> users online
+🟢 <span id="onlineUsers">15</span> users online
 </div>
 
 <div class="wallet">
+<h2>Balance: <span id="balance">0</span>৳</h2>
 
-<h3>Balance: <span id="balance">0</span>৳</h3>
-
-<button onclick="openBalance()">Add Balance</button>
-
+<button class="addBtn" onclick="openBalance()">Add Balance</button>
 </div>
 
 <div class="container">
@@ -277,7 +301,7 @@ transform:translateY(-3px);
 <p class="price">110৳</p>
 <p class="stock">Stock:100</p>
 <div class="progress"><div class="bar" style="width:90%"></div></div>
-<button onclick="order('Weekly')">Order</button>
+<button class="orderBtn">Order</button>
 </div>
 
 <div class="card">
@@ -285,7 +309,7 @@ transform:translateY(-3px);
 <p class="price">500৳</p>
 <p class="stock">Stock:30</p>
 <div class="progress"><div class="bar" style="width:70%"></div></div>
-<button onclick="order('Monthly')">Order</button>
+<button class="orderBtn">Order</button>
 </div>
 
 <div class="card">
@@ -293,7 +317,7 @@ transform:translateY(-3px);
 <p class="price">400৳</p>
 <p class="stock">Stock:10</p>
 <div class="progress"><div class="bar" style="width:60%"></div></div>
-<button onclick="order('1240 Diamonds')">Order</button>
+<button class="orderBtn">Order</button>
 </div>
 
 <div class="card">
@@ -301,13 +325,9 @@ transform:translateY(-3px);
 <p class="price">900৳</p>
 <p class="stock">Stock:5</p>
 <div class="progress"><div class="bar" style="width:40%"></div></div>
-<button onclick="order('2530 Diamonds')">Order</button>
+<button class="orderBtn">Order</button>
 </div>
 
-</div>
-
-<div class="ticker">
-<span id="tickerText"></span>
 </div>
 
 <div class="notify" id="notifyBox">
@@ -327,19 +347,21 @@ transform:translateY(-3px);
 <div id="nagad" onclick="selectPay('nagad')">Nagad</div>
 </div>
 
-<button onclick="nextStep()">Next</button>
+<button class="submitBtn" onclick="nextStep()">Next</button>
 
 <div id="step2" style="display:none">
 
 <p>Send money to</p>
 
-<b>01810607626</b>
+<b id="number">01810607626</b>
+
+<button class="copyBtn" onclick="copyNumber()">Copy Number</button>
 
 <input placeholder="Transaction ID">
 
-<button onclick="submitBalance()">Submit</button>
+<button class="submitBtn">Submit</button>
 
-<button onclick="closePopup()">Cancel</button>
+<button class="cancelBtn" onclick="closePopup()">Cancel</button>
 
 </div>
 
@@ -349,10 +371,25 @@ transform:translateY(-3px);
 
 <div class="bottomNav">
 
-<div onclick="scrollTo(0,0)">🏠<br>Home</div>
-<div onclick="openBalance()">💰<br>Add</div>
-<div onclick="alert('Orders')">📦<br>Orders</div>
-<div onclick="alert('Support')">📞<br>Support</div>
+<div class="active">
+🏠
+Home
+</div>
+
+<div onclick="openBalance()">
+💰
+Add
+</div>
+
+<div>
+📦
+Orders
+</div>
+
+<div>
+📞
+Support
+</div>
 
 </div>
 
@@ -361,11 +398,11 @@ transform:translateY(-3px);
 /* online users */
 
 setInterval(()=>{
-let num=Math.floor(Math.random()*30)+5
-document.getElementById("onlineUsers").innerText=num
+document.getElementById("onlineUsers").innerText=
+Math.floor(Math.random()*25)+8
 },4000)
 
-/* payment */
+/* payment select */
 
 let method=""
 
@@ -393,32 +430,51 @@ function nextStep(){
 let amount=document.getElementById("amount").value
 
 if(amount<100){
-alert("Minimum deposit 100৳ required")
+
+showNotify("Minimum deposit 100৳ required")
+
 return
+
 }
 
 if(method==""){
-alert("Select payment method")
+
+showNotify("Select payment method")
+
 return
+
 }
 
 document.getElementById("step2").style.display="block"
 
 }
 
-function submitBalance(){
+function copyNumber(){
 
-alert("Balance request submitted")
+navigator.clipboard.writeText("01810607626")
 
-closePopup()
+showNotify("Number copied")
 
 }
 
-function order(pkg){
-alert(pkg+" order placed")
+/* notification */
+
+function showNotify(text){
+
+let box=document.getElementById("notifyBox")
+let txt=document.getElementById("notifyText")
+
+txt.innerText=text
+
+box.style.display="block"
+
+setTimeout(()=>{
+box.style.display="none"
+},3000)
+
 }
 
-/* random buyers */
+/* random buyer */
 
 let names=[
 "Rahim","Karim","Sakib","Rana","Jahid","Sohel","Rubel",
@@ -443,20 +499,9 @@ setInterval(()=>{
 let n=names[Math.floor(Math.random()*names.length)]
 let p=packs[Math.floor(Math.random()*packs.length)]
 
-document.getElementById("tickerText").innerText=n+" bought "+p
+showNotify(n+" purchased "+p)
 
-let box=document.getElementById("notifyBox")
-let text=document.getElementById("notifyText")
-
-text.innerText=n+" purchased "+p
-
-box.style.display="block"
-
-setTimeout(()=>{
-box.style.display="none"
-},3000)
-
-},6000)
+},7000)
 
 </script>
 
