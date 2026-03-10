@@ -12,10 +12,10 @@ font-family:Arial;
 color:white;
 background:linear-gradient(45deg,#020617,#0f172a,#020617);
 background-size:400% 400%;
-animation:bgMove 12s infinite alternate;
+animation:bg 10s infinite alternate;
 }
 
-@keyframes bgMove{
+@keyframes bg{
 0%{background-position:left}
 100%{background-position:right}
 }
@@ -23,7 +23,7 @@ animation:bgMove 12s infinite alternate;
 .header{
 text-align:center;
 padding:20px;
-font-size:28px;
+font-size:26px;
 font-weight:bold;
 }
 
@@ -41,9 +41,9 @@ margin:20px;
 
 .container{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:20px;
-padding:30px;
+padding:20px;
 max-width:900px;
 margin:auto;
 }
@@ -51,10 +51,10 @@ margin:auto;
 .card{
 background:#1e293b;
 padding:20px;
-border-radius:12px;
+border-radius:14px;
 text-align:center;
-box-shadow:0 0 20px rgba(0,255,255,0.3);
-transition:0.3s;
+box-shadow:0 0 15px rgba(0,255,255,0.3);
+transition:.3s;
 }
 
 .card:hover{
@@ -63,8 +63,8 @@ box-shadow:0 0 25px #22c55e;
 }
 
 .price{
-font-size:22px;
 color:#22c55e;
+font-size:22px;
 font-weight:bold;
 }
 
@@ -73,13 +73,13 @@ color:#facc15;
 }
 
 button{
-margin-top:10px;
-padding:10px 20px;
-background:#22c55e;
+padding:10px 18px;
 border:none;
 border-radius:6px;
+background:#22c55e;
 color:white;
 cursor:pointer;
+margin-top:10px;
 }
 
 .popup{
@@ -89,7 +89,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.8);
+background:rgba(0,0,0,.8);
 justify-content:center;
 align-items:center;
 }
@@ -106,25 +106,25 @@ input{
 width:100%;
 padding:10px;
 margin-top:10px;
-border:none;
 border-radius:6px;
+border:none;
 }
 
-.paymentSelect{
+.pay{
 display:flex;
 gap:10px;
 margin-top:10px;
 }
 
-.payBox{
+.pay div{
 flex:1;
 padding:10px;
-border-radius:6px;
 background:#334155;
+border-radius:6px;
 cursor:pointer;
 }
 
-.payBox.active{
+.pay .active{
 background:#22c55e;
 }
 
@@ -141,6 +141,56 @@ padding:10px;
 text-align:center;
 }
 
+/* loading */
+
+.loader{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.8);
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+.spinner{
+width:40px;
+height:40px;
+border:4px solid #ccc;
+border-top:4px solid #22c55e;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0)}
+100%{transform:rotate(360deg)}
+}
+
+/* alert modal */
+
+.alert{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.8);
+justify-content:center;
+align-items:center;
+}
+
+.alertBox{
+background:#1e293b;
+padding:25px;
+border-radius:10px;
+text-align:center;
+}
+
 </style>
 
 </head>
@@ -149,7 +199,7 @@ text-align:center;
 
 <div class="header">💎 Free Fire Diamond Shop</div>
 
-<div class="notice">🔥 Limited Time Offer | Minimum Deposit 100৳</div>
+<div class="notice">🔥 Limited Offer | Minimum Deposit 100৳</div>
 
 <div class="wallet">
 <h2>Wallet Balance: <span id="balance">0</span>৳</h2>
@@ -161,29 +211,29 @@ text-align:center;
 <div class="card">
 <h3>Weekly Membership</h3>
 <p class="price">110৳</p>
-<p class="stock">Stock: <span id="weeklyStock"></span></p>
+<p class="stock">Stock: <span id="weekly"></span></p>
 <button onclick="order('Weekly',110)">Order</button>
 </div>
 
 <div class="card">
 <h3>Monthly Membership</h3>
 <p class="price">500৳</p>
-<p class="stock">Stock: <span id="monthlyStock"></span></p>
+<p class="stock">Stock: <span id="monthly"></span></p>
 <button onclick="order('Monthly',500)">Order</button>
 </div>
 
 <div class="card">
 <h3>1240 💎</h3>
 <p class="price">400৳</p>
-<p class="stock">Stock: <span id="d1240Stock"></span></p>
-<button onclick="order('1240 Diamond',400)">Order</button>
+<p class="stock">Stock: <span id="d1240"></span></p>
+<button onclick="order('1240 Diamonds',400)">Order</button>
 </div>
 
 <div class="card">
 <h3>2530 💎</h3>
 <p class="price">900৳</p>
-<p class="stock">Stock: <span id="d2530Stock"></span></p>
-<button onclick="order('2530 Diamond',900)">Order</button>
+<p class="stock">Stock: <span id="d2530"></span></p>
+<button onclick="order('2530 Diamonds',900)">Order</button>
 </div>
 
 </div>
@@ -191,23 +241,16 @@ text-align:center;
 <h2 style="text-align:center">Order History</h2>
 
 <table id="orders">
-<tr>
-<th>Package</th>
-<th>Price</th>
-<th>Status</th>
-</tr>
+<tr><th>Package</th><th>Price</th><th>Status</th></tr>
 </table>
 
 <h2 style="text-align:center">Balance Requests</h2>
 
 <table id="balanceTable">
-<tr>
-<th>Amount</th>
-<th>Method</th>
-<th>Transaction</th>
-<th>Status</th>
-</tr>
+<tr><th>Amount</th><th>Method</th><th>Transaction</th><th>Status</th></tr>
 </table>
+
+<!-- balance popup -->
 
 <div class="popup" id="balancePopup">
 
@@ -215,29 +258,19 @@ text-align:center;
 
 <h3>Add Balance</h3>
 
-<div id="step1">
-
 <input id="amount" placeholder="Enter Amount">
 
-<div class="paymentSelect">
-
-<div class="payBox" onclick="selectPay('bKash')" id="bkash">bKash</div>
-
-<div class="payBox" onclick="selectPay('Nagad')" id="nagad">Nagad</div>
-
+<div class="pay">
+<div id="bkash" onclick="selectPay('bKash')">bKash</div>
+<div id="nagad" onclick="selectPay('Nagad')">Nagad</div>
 </div>
 
 <button onclick="nextStep()">Next</button>
 
-</div>
-
 <div id="step2" style="display:none">
 
 <p>Send money to</p>
-
 <b>01810607626</b>
-
-<p id="methodText"></p>
 
 <input id="trx" placeholder="Transaction ID">
 
@@ -249,25 +282,48 @@ text-align:center;
 
 </div>
 
+<!-- loading -->
+
+<div class="loader" id="loader">
+
+<div class="spinner"></div>
+<p>Processing...</p>
+
+</div>
+
+<!-- alert -->
+
+<div class="alert" id="alertBox">
+
+<div class="alertBox">
+
+<p id="alertText"></p>
+
+<button onclick="closeAlert()">OK</button>
+
+</div>
+
+</div>
+
 <script>
 
-let balance = localStorage.getItem("balance") || 0
+let balance=localStorage.getItem("balance")||0
 
-let stock = JSON.parse(localStorage.getItem("stock")) || {
+let stock=JSON.parse(localStorage.getItem("stock"))||{
 weekly:100,
 monthly:30,
 d1240:10,
 d2530:5
 }
 
-let orders = JSON.parse(localStorage.getItem("orders")) || []
-let balanceReq = JSON.parse(localStorage.getItem("balanceReq")) || []
+let orders=JSON.parse(localStorage.getItem("orders"))||[]
+let req=JSON.parse(localStorage.getItem("req"))||[]
 
-document.getElementById("balance").innerText = balance
+document.getElementById("balance").innerText=balance
 
 updateStock()
 renderOrders()
-renderBalance()
+renderReq()
 
 let method=""
 
@@ -282,13 +338,17 @@ document.getElementById(m.toLowerCase()).classList.add("active")
 
 }
 
+function openBalance(){
+document.getElementById("balancePopup").style.display="flex"
+}
+
 function nextStep(){
 
 let amount=document.getElementById("amount").value
 
 if(amount<100){
 
-alert("Minimum deposit 100৳")
+showAlert("Minimum deposit 100৳ required")
 
 return
 
@@ -296,16 +356,13 @@ return
 
 if(method==""){
 
-alert("Select payment method")
+showAlert("Select payment method")
 
 return
 
 }
 
-document.getElementById("step1").style.display="none"
 document.getElementById("step2").style.display="block"
-
-document.getElementById("methodText").innerText=method+" Personal"
 
 }
 
@@ -314,50 +371,39 @@ function submitBalance(){
 let amount=document.getElementById("amount").value
 let trx=document.getElementById("trx").value
 
-balanceReq.push({
-amount:amount,
-method:method,
-trx:trx,
-status:"Pending"
-})
+document.getElementById("loader").style.display="flex"
 
-localStorage.setItem("balanceReq",JSON.stringify(balanceReq))
+setTimeout(()=>{
 
-renderBalance()
+req.push({amount:amount,method:method,trx:trx,status:"Pending"})
 
-alert("Balance request submitted")
+localStorage.setItem("req",JSON.stringify(req))
+
+renderReq()
+
+document.getElementById("loader").style.display="none"
 
 document.getElementById("balancePopup").style.display="none"
 
-}
+showAlert("Balance request submitted")
 
-function openBalance(){
-document.getElementById("balancePopup").style.display="flex"
-}
-
-function updateStock(){
-
-document.getElementById("weeklyStock").innerText=stock.weekly
-document.getElementById("monthlyStock").innerText=stock.monthly
-document.getElementById("d1240Stock").innerText=stock.d1240
-document.getElementById("d2530Stock").innerText=stock.d2530
+},1500)
 
 }
 
 function order(pkg,price){
 
 if(balance<price){
-alert("Not enough balance")
+
+showAlert("Not enough balance")
+
 return
+
 }
 
-balance=balance-price
+balance-=price
 
-orders.push({
-package:pkg,
-price:price,
-status:"Pending"
-})
+orders.push({package:pkg,price:price,status:"Pending"})
 
 localStorage.setItem("balance",balance)
 localStorage.setItem("orders",JSON.stringify(orders))
@@ -368,41 +414,61 @@ renderOrders()
 
 }
 
+function updateStock(){
+
+document.getElementById("weekly").innerText=stock.weekly
+document.getElementById("monthly").innerText=stock.monthly
+document.getElementById("d1240").innerText=stock.d1240
+document.getElementById("d2530").innerText=stock.d2530
+
+}
+
 function renderOrders(){
 
-let table=document.getElementById("orders")
+let t=document.getElementById("orders")
 
-table.innerHTML="<tr><th>Package</th><th>Price</th><th>Status</th></tr>"
+t.innerHTML="<tr><th>Package</th><th>Price</th><th>Status</th></tr>"
 
 orders.forEach(o=>{
 
-let row=table.insertRow()
+let r=t.insertRow()
 
-row.insertCell(0).innerText=o.package
-row.insertCell(1).innerText=o.price+"৳"
-row.insertCell(2).innerText=o.status
+r.insertCell(0).innerText=o.package
+r.insertCell(1).innerText=o.price+"৳"
+r.insertCell(2).innerText=o.status
 
 })
 
 }
 
-function renderBalance(){
+function renderReq(){
 
-let table=document.getElementById("balanceTable")
+let t=document.getElementById("balanceTable")
 
-table.innerHTML="<tr><th>Amount</th><th>Method</th><th>Transaction</th><th>Status</th></tr>"
+t.innerHTML="<tr><th>Amount</th><th>Method</th><th>Transaction</th><th>Status</th></tr>"
 
-balanceReq.forEach(b=>{
+req.forEach(b=>{
 
-let row=table.insertRow()
+let r=t.insertRow()
 
-row.insertCell(0).innerText=b.amount+"৳"
-row.insertCell(1).innerText=b.method
-row.insertCell(2).innerText=b.trx
-row.insertCell(3).innerText=b.status
+r.insertCell(0).innerText=b.amount+"৳"
+r.insertCell(1).innerText=b.method
+r.insertCell(2).innerText=b.trx
+r.insertCell(3).innerText=b.status
 
 })
 
+}
+
+function showAlert(msg){
+
+document.getElementById("alertText").innerText=msg
+document.getElementById("alertBox").style.display="flex"
+
+}
+
+function closeAlert(){
+document.getElementById("alertBox").style.display="none"
 }
 
 </script>
