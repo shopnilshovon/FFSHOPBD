@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Diamond Shop</title>
-
-<style>
-
-*{box-sizing:border-box;font-family:Arial}
+<!DOCTYPE html><html>  <head><meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Diamond Shop</title><style>  *{box-sizing:border-box;font-family:Arial}
 
 body{
 margin:0;
@@ -241,121 +231,165 @@ box-shadow:0 0 20px rgba(34,197,94,.6);
 display:none;
 }
 
-</style>
-</head>
+/* reviews */
 
-<body>
+.reviews{
+margin:20px auto;
+max-width:420px;
+text-align:center;
+}
 
-<script>
+.reviewBox{
+background:#1e293b;
+padding:12px;
+border-radius:10px;
+font-size:13px;
+}
+
+/* bottom nav */
+
+.bottomNav{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+display:flex;
+justify-content:space-around;
+background:#020617;
+padding:8px 0;
+border-top:1px solid #334155;
+}
+
+.bottomNav div{
+background:#1e293b;
+width:80px;
+height:55px;
+border-radius:12px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+font-size:12px;
+}
+
+.bottomNav div.active{background:#22c55e}
+
+.history{display:none;padding:20px}
+
+.historyItem{
+background:#1e293b;
+padding:12px;
+border-radius:10px;
+margin-top:10px;
+}
+
+</style></head><body><script>
 for(let i=0;i<40;i++){
 let p=document.createElement("div")
 p.className="particle"
 p.style.left=Math.random()*100+"%"
 document.body.appendChild(p)
 }
-</script>
+</script><div class="diamond" style="left:20%">💎</div>
 
-<div class="diamond" style="left:20%">💎</div>
-<div class="diamond" style="left:70%">💎</div>
+<div class="diamond" style="left:70%">💎</div><div class="header">💎 Diamond Shop</div><div class="notice">Limited Offer</div>  
+<div class="timer">Offer ends in <span id="timer">10:00</span></div><div class="online">🟢 <span id="onlineUsers">10</span> users online</div><div class="wallet">  
+<h2>Balance: <span id="balance">0</span>৳</h2>  
+<button class="addBtn" onclick="openBalance()">Add Balance</button>  
+</div><div class="container" id="shop"><div class="card">  
+<h4>Weekly</h4>  
+<p class="price">110৳</p>  
+<p class="stock">Stock: <span id="stock1">100</span></p>  
+<div class="barBox"><div class="bar" id="bar1"></div></div>  
+<button class="orderBtn" onclick="order('Weekly','stock1','bar1',100,110)">Order</button>  
+</div><div class="card">  
+<h4>Monthly</h4>  
+<p class="price">500৳</p>  
+<p class="stock">Stock: <span id="stock2">30</span></p>  
+<div class="barBox"><div class="bar" id="bar2"></div></div>  
+<button class="orderBtn" onclick="order('Monthly','stock2','bar2',30,500)">Order</button>  
+</div><div class="card">  
+<h4>1240 💎</h4>  
+<p class="price">400৳</p>  
+<p class="stock">Stock: <span id="stock3">10</span></p>  
+<div class="barBox"><div class="bar" id="bar3"></div></div>  
+<button class="orderBtn" onclick="order('1240 Diamonds','stock3','bar3',10,400)">Order</button>  
+</div><div class="card">  
+<h4>2530 💎</h4>  
+<p class="price">900৳</p>  
+<p class="stock">Stock: <span id="stock4">5</span></p>  
+<div class="barBox"><div class="bar" id="bar4"></div></div>  
+<button class="orderBtn" onclick="order('2530 Diamonds','stock4','bar4',5,900)">Order</button>  
+</div></div><div class="reviews">  
+<div class="reviewBox" id="reviewBox">⭐ Great service!</div>  
+</div><div class="notify" id="notifyBox">  
+<span id="notifyText"></span>  
+</div><!-- popup --><div class="popup" id="balancePopup">  
+<div class="form"><span class="closeBtn" onclick="closePopup()">✕</span>  <h3>Add Balance</h3><input id="amount" placeholder="Enter Amount"><div class="pay">  
+<div id="bkash" onclick="selectPay('bkash')">bKash</div>  
+<div id="nagad" onclick="selectPay('nagad')">Nagad</div>  
+</div><button class="btn green" onclick="nextStep()">Next</button>  <div class="loader" id="loader"></div><div id="step2" style="display:none"><p>Send money to</p><b>01810607626</b>  <button class="btn blue" onclick="copyNumber()">Copy Number</button>
 
-<div class="header">💎 Diamond Shop</div>
-
-<div class="notice">Limited Offer</div>
-
-<div class="timer">Offer ends in <span id="timer">10:00</span></div>
-
-<div class="online">🟢 <span id="onlineUsers">10</span> users online</div>
-
-<div class="wallet">
-<h2>Balance: <span id="balance">0</span>৳</h2>
-<button class="addBtn" onclick="openBalance()">Add Balance</button>
-</div>
-
-<div class="container">
-
-<div class="card">
-<h4>Weekly</h4>
-<p class="price">110৳</p>
-<p class="stock">Stock: <span id="stock1">100</span></p>
-<div class="barBox"><div class="bar" id="bar1"></div></div>
-<button class="orderBtn" onclick="order('Weekly','stock1','bar1',100,110)">Order</button>
-</div>
-
-<div class="card">
-<h4>Monthly</h4>
-<p class="price">500৳</p>
-<p class="stock">Stock: <span id="stock2">30</span></p>
-<div class="barBox"><div class="bar" id="bar2"></div></div>
-<button class="orderBtn" onclick="order('Monthly','stock2','bar2',30,500)">Order</button>
-</div>
-
-<div class="card">
-<h4>1240 💎</h4>
-<p class="price">400৳</p>
-<p class="stock">Stock: <span id="stock3">10</span></p>
-<div class="barBox"><div class="bar" id="bar3"></div></div>
-<button class="orderBtn" onclick="order('1240 Diamonds','stock3','bar3',10,400)">Order</button>
-</div>
-
-<div class="card">
-<h4>2530 💎</h4>
-<p class="price">900৳</p>
-<p class="stock">Stock: <span id="stock4">5</span></p>
-<div class="barBox"><div class="bar" id="bar4"></div></div>
-<button class="orderBtn" onclick="order('2530 Diamonds','stock4','bar4',5,900)">Order</button>
-</div>
-
-</div>
-
-<div class="notify" id="notifyBox">
-<span id="notifyText"></span>
-</div>
-
-<!-- Balance Popup -->
-
-<div class="popup" id="balancePopup">
-
-<div class="form">
-
-<span class="closeBtn" onclick="closePopup()">✕</span>
-
-<h3>Add Balance</h3>
-
-<input id="amount" placeholder="Enter Amount">
-
-<div class="pay">
-<div id="bkash" onclick="selectPay('bkash')">bKash</div>
-<div id="nagad" onclick="selectPay('nagad')">Nagad</div>
-</div>
-
-<button class="btn green" onclick="nextStep()">Next</button>
-
-<div class="loader" id="loader"></div>
-
-<div id="step2" style="display:none">
-
-<p>Send money to</p>
-
-<b>01810607626</b>
-
-<button class="btn blue" onclick="copyNumber()">Copy Number</button>
-
-<input id="trx" placeholder="Transaction ID">
-
-<button class="btn green" onclick="submitBalance()">Submit</button>
+<input id="trx" placeholder="Transaction ID"><button class="btn green" onclick="submitBalance()">Submit</button>
 
 <button class="btn red" onclick="closePopup()">Cancel</button>
 
-</div>
-
-</div>
-
-</div>
-
-<script>
-
-let balance=0
+</div></div>  
+</div><script>  let balance=0
 let method=""
+
+/* random names */
+
+let names=[
+"Rahim","Karim","Sakib","Jahid","Naim","Rifat","Sohel","Rakib","Tanvir","Sohan",
+"Rony","Shanto","Mahin","Sabbir","Imran","Arif","Nayeem","Hasan","Saif","Rasel",
+"Riad","Siam","Tarek","Rubel","Jamal","Kamrul","Rafi","Minhaz","Akash","Shuvo",
+"Fahim","Bappy","Sumon","Sakil","Noman","Ratul","Sajid","Shamim","Tuhin","Riadul",
+"Parvez","Tanzim","Fardin","Hridoy","Arafat","Shahin","Asif","Nadim","Tajim","Sadi"
+]
+
+/* fake purchase */
+
+setInterval(()=>{
+let n=names[Math.floor(Math.random()*names.length)]
+let packs=["Weekly","Monthly","1240 Diamonds","2530 Diamonds"]
+let p=packs[Math.floor(Math.random()*packs.length)]
+showNotify(n+" purchased "+p)
+},6000)
+
+/* reviews */
+
+let reviews=[
+"⭐ Fast delivery!",
+"⭐ Trusted shop!",
+"⭐ Best price!",
+"⭐ Instant topup!",
+"⭐ Highly recommended!"
+]
+
+setInterval(()=>{
+document.getElementById("reviewBox").innerText=
+reviews[Math.floor(Math.random()*reviews.length)]
+},4000)
+
+/* timer */
+
+let time=600
+setInterval(()=>{
+time--
+let m=Math.floor(time/60)
+let s=time%60
+document.getElementById("timer").innerText=m+":"+s
+},1000)
+
+/* online */
+
+setInterval(()=>{
+document.getElementById("onlineUsers").innerText=
+Math.floor(Math.random()*20)+5
+},4000)
+
+/* notify */
 
 function showNotify(text){
 let box=document.getElementById("notifyBox")
@@ -432,7 +466,6 @@ showNotify(pkg+" order placed")
 
 }
 
-</script>
+</script></body>
 
-</body>
 </html>
