@@ -9,24 +9,20 @@
 
 <style>
 
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
 font-family:Arial;
 color:white;
-overflow-x:hidden;
 background:linear-gradient(270deg,#020617,#0f172a,#020617);
 background-size:600% 600%;
-animation:bgMove 12s ease infinite;
+animation:bgMove 12s infinite alternate;
 }
 
 @keyframes bgMove{
 0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
+100%{background-position:100% 50%}
 }
 
 .header{
@@ -41,6 +37,18 @@ text-align:center;
 background:#f97316;
 padding:8px;
 font-size:14px;
+}
+
+.liveCounter{
+text-align:center;
+color:#22c55e;
+font-size:13px;
+}
+
+.timerBox{
+text-align:center;
+color:#facc15;
+font-size:13px;
 }
 
 .wallet{
@@ -63,23 +71,11 @@ border-radius:12px;
 padding:14px;
 text-align:center;
 box-shadow:0 0 12px rgba(0,255,255,0.3);
-transition:0.3s;
-animation:cardFade .8s ease;
-}
-
-@keyframes cardFade{
-from{
-opacity:0;
-transform:translateY(20px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
+transition:.3s;
 }
 
 .card:hover{
-transform:scale(1.03);
+transform:scale(1.05);
 box-shadow:0 0 18px #22c55e;
 }
 
@@ -120,6 +116,22 @@ padding:8px;
 text-align:center;
 }
 
+/* ticker */
+
+.ticker{
+position:fixed;
+bottom:70px;
+left:50%;
+transform:translateX(-50%);
+background:#1e293b;
+padding:8px 14px;
+border-radius:8px;
+font-size:13px;
+box-shadow:0 0 10px #22c55e;
+}
+
+/* popup */
+
 .popup{
 display:none;
 position:fixed;
@@ -140,18 +152,6 @@ border-radius:12px;
 width:100%;
 max-width:320px;
 text-align:center;
-animation:popup .3s ease;
-}
-
-@keyframes popup{
-from{
-transform:scale(.8);
-opacity:0;
-}
-to{
-transform:scale(1);
-opacity:1;
-}
 }
 
 input{
@@ -174,12 +174,13 @@ padding:10px;
 background:#334155;
 border-radius:6px;
 cursor:pointer;
-font-size:14px;
 }
 
 .pay .active{
 background:#22c55e;
 }
+
+/* loader */
 
 .loader{
 display:none;
@@ -208,24 +209,15 @@ animation:spin 1s linear infinite;
 100%{transform:rotate(360deg)}
 }
 
-.alert{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.85);
-justify-content:center;
-align-items:center;
-}
+/* trust */
 
-.alertBox{
-background:#1e293b;
-padding:20px;
-border-radius:10px;
-text-align:center;
-width:260px;
+.trust{
+display:flex;
+justify-content:space-around;
+margin:20px auto;
+max-width:480px;
+font-size:12px;
+color:#94a3b8;
 }
 
 </style>
@@ -236,7 +228,15 @@ width:260px;
 
 <div class="header">💎 Diamond Shop</div>
 
-<div class="notice">Minimum Deposit 100৳</div>
+<div class="notice">Limited Offer | Minimum Deposit 100৳</div>
+
+<div class="liveCounter">
+🟢 <span id="onlineUsers">12</span> people buying now
+</div>
+
+<div class="timerBox">
+Offer Ends In: <span id="timer"></span>
+</div>
 
 <div class="wallet">
 
@@ -277,6 +277,168 @@ width:260px;
 </div>
 
 </div>
+
+<div class="trust">
+
+<div>🔒 Secure Payment</div>
+<div>⚡ Instant Delivery</div>
+<div>⭐ Trusted Service</div>
+
+</div>
+
+<div class="ticker">
+<span id="tickerText"></span>
+</div>
+
+<div class="popup" id="balancePopup">
+
+<div class="form">
+
+<h3>Add Balance</h3>
+
+<input id="amount" placeholder="Enter Amount">
+
+<div class="pay">
+
+<div id="bkash" onclick="selectPay('bKash')">bKash</div>
+<div id="nagad" onclick="selectPay('Nagad')">Nagad</div>
+
+</div>
+
+<button onclick="nextStep()">Next</button>
+
+<div id="step2" style="display:none">
+
+<p>Send money to</p>
+<b>01810607626</b>
+
+<input id="trx" placeholder="Transaction ID">
+
+<button onclick="submitBalance()">Submit</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="loader" id="loader">
+
+<div class="spinner"></div>
+<p>Processing...</p>
+
+</div>
+
+<script>
+
+/* online counter */
+
+setInterval(()=>{
+let num=Math.floor(Math.random()*20)+5
+document.getElementById("onlineUsers").innerText=num
+},4000)
+
+/* timer */
+
+let time=3600
+
+setInterval(()=>{
+
+let m=Math.floor(time/60)
+let s=time%60
+
+document.getElementById("timer").innerText=m+"m "+s+"s"
+
+time--
+
+if(time<=0) time=3600
+
+},1000)
+
+/* random names */
+
+let names=[
+Rahim,Karim,Sakib,Rana,Jahid,Sohel,Rubel,
+Arif,Tanvir,Hasan,Nahid,Rakib,Shanto,
+Fahim,Nabil,Imran,Tarek,Masud,Bappy,
+Sohan,Anik,Tushar,Shakil,Rasel,Mahim,
+Rifat,Saif,Joy,Shuvo,Rabby,Tamim,
+Rony,Shuvo,Farhan,Minhaz,Akash,Sifat,
+Siam,Shimul,Rafi,Rafiq,Samir,Sumon,
+Habib,Shahid,Kamrul,Shamim
+]
+
+let packs=[
+"Weekly Membership",
+"1240 Diamonds",
+"2530 Diamonds",
+"Monthly Membership"
+]
+
+setInterval(()=>{
+
+let n=names[Math.floor(Math.random()*names.length)]
+let p=packs[Math.floor(Math.random()*packs.length)]
+
+document.getElementById("tickerText").innerText=
+n+" bought "+p
+
+},5000)
+
+/* balance popup */
+
+let method=""
+
+function openBalance(){
+document.getElementById("balancePopup").style.display="flex"
+}
+
+function selectPay(m){
+
+method=m
+
+document.getElementById("bkash").classList.remove("active")
+document.getElementById("nagad").classList.remove("active")
+
+document.getElementById(m.toLowerCase()).classList.add("active")
+
+}
+
+function nextStep(){
+
+let amount=document.getElementById("amount").value
+
+if(amount<100){
+alert("Minimum deposit 100৳ required")
+return
+}
+
+if(method==""){
+alert("Select payment method")
+return
+}
+
+document.getElementById("step2").style.display="block"
+
+}
+
+function submitBalance(){
+
+document.getElementById("loader").style.display="flex"
+
+setTimeout(()=>{
+
+document.getElementById("loader").style.display="none"
+
+alert("Balance request submitted")
+
+document.getElementById("balancePopup").style.display="none"
+
+},1500)
+
+}
+
+</script>
 
 </body>
 </html>
