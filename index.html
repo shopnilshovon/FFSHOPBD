@@ -1,14 +1,32 @@
-<!DOCTYPE html><html>
-<head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Diamond Shop</title><style>
+<!DOCTYPE html>
+<html>
+<head>
 
-*{box-sizing:border-box;font-family:Arial}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Diamond Shop</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+font-family:Arial;
+}
 
 body{
 margin:0;
-background:#020617;
 color:white;
 overflow-x:hidden;
+background:linear-gradient(135deg,#020617,#0f172a,#020617);
+background-size:400% 400%;
+animation:bgMove 15s infinite linear;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
 
 /* particles */
@@ -27,13 +45,13 @@ animation:particles 12s linear infinite;
 100%{transform:translateY(-10vh)}
 }
 
-/* floating diamonds */
+/* diamonds */
 
 .diamond{
 position:fixed;
 font-size:18px;
-opacity:.4;
-animation:diamondFloat 14s linear infinite;
+opacity:.5;
+animation:diamondFloat 12s linear infinite;
 }
 
 @keyframes diamondFloat{
@@ -46,14 +64,16 @@ animation:diamondFloat 14s linear infinite;
 .header{
 text-align:center;
 padding:18px;
-font-size:24px;
+font-size:26px;
 font-weight:bold;
+text-shadow:0 0 10px rgba(34,197,94,.6);
 }
 
 .notice{
 background:#f97316;
 text-align:center;
 padding:10px;
+font-weight:bold;
 }
 
 .timer{
@@ -70,17 +90,21 @@ margin-top:6px;
 
 /* wallet */
 
-.wallet{text-align:center;margin:20px 0}
+.wallet{
+text-align:center;
+margin:20px 0;
+}
 
 .addBtn{
 width:90%;
 max-width:420px;
 padding:12px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 background:#22c55e;
 color:white;
 font-size:16px;
+box-shadow:0 0 15px rgba(34,197,94,.4);
 }
 
 /* cards */
@@ -95,18 +119,30 @@ margin:auto;
 }
 
 .card{
-background:#1e293b;
+background:rgba(30,41,59,.8);
+backdrop-filter:blur(8px);
 border-radius:14px;
 padding:16px;
 text-align:center;
 transition:.3s;
+box-shadow:0 0 20px rgba(0,0,0,.4);
 }
 
-.card:hover{transform:scale(1.03)}
+.card:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px rgba(34,197,94,.6);
+}
 
-.price{color:#22c55e;font-size:20px;font-weight:bold}
+.price{
+color:#22c55e;
+font-size:20px;
+font-weight:bold;
+}
 
-.stock{font-size:12px;color:#facc15}
+.stock{
+font-size:12px;
+color:#facc15;
+}
 
 .barBox{
 background:#0f172a;
@@ -120,7 +156,7 @@ overflow:hidden;
 height:6px;
 background:#22c55e;
 width:100%;
-transition:.3s;
+transition:.4s;
 }
 
 .orderBtn{
@@ -131,6 +167,7 @@ border:none;
 border-radius:8px;
 background:#22c55e;
 color:white;
+font-weight:bold;
 }
 
 /* popup */
@@ -175,7 +212,11 @@ border-radius:8px;
 border:none;
 }
 
-.pay{display:flex;gap:10px;margin-top:10px}
+.pay{
+display:flex;
+gap:10px;
+margin-top:10px;
+}
 
 .pay div{
 flex:1;
@@ -186,10 +227,18 @@ font-weight:bold;
 cursor:pointer;
 }
 
-#bkash{background:linear-gradient(135deg,#e2136e,#b80c88)}
-#nagad{background:#f97316}
+#bkash{
+background:linear-gradient(135deg,#e2136e,#b80c88);
+}
 
-.pay div.active{transform:scale(1.05);box-shadow:0 0 10px white}
+#nagad{
+background:#f97316;
+}
+
+.pay div.active{
+transform:scale(1.05);
+box-shadow:0 0 10px white;
+}
 
 .btn{
 margin-top:10px;
@@ -217,7 +266,10 @@ margin:15px auto;
 display:none;
 }
 
-@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes spin{
+0%{transform:rotate(0)}
+100%{transform:rotate(360deg)}
+}
 
 /* notify */
 
@@ -247,108 +299,101 @@ background:#1e293b;
 padding:12px;
 border-radius:10px;
 font-size:13px;
+animation:fadeReview 1s ease;
 }
 
-/* bottom nav */
-
-.bottomNav{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-display:flex;
-justify-content:space-around;
-background:#020617;
-padding:8px 0;
-border-top:1px solid #334155;
+@keyframes fadeReview{
+from{opacity:0}
+to{opacity:1}
 }
 
-.bottomNav div{
-background:#1e293b;
-width:80px;
-height:55px;
-border-radius:12px;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-font-size:12px;
-}
+</style>
+</head>
 
-.bottomNav div.active{background:#22c55e}
+<body>
 
-.history{display:none;padding:20px}
-
-.historyItem{
-background:#1e293b;
-padding:12px;
-border-radius:10px;
-margin-top:10px;
-}
-
-</style></head><body><script>
+<script>
 for(let i=0;i<40;i++){
 let p=document.createElement("div")
 p.className="particle"
 p.style.left=Math.random()*100+"%"
 document.body.appendChild(p)
 }
-</script><div class="diamond" style="left:20%">💎</div>
-<div class="diamond" style="left:70%">💎</div><div class="header">💎 Diamond Shop</div><div class="notice">Limited Offer</div>
-<div class="timer">Offer ends in <span id="timer">10:00</span></div><div class="online">🟢 <span id="onlineUsers">10</span> users online</div><div class="wallet">
+</script>
+
+<div class="diamond" style="left:20%">💎</div>
+<div class="diamond" style="left:70%">💎</div>
+
+<div class="header">💎 Diamond Shop</div>
+
+<div class="notice">Limited Offer</div>
+
+<div class="timer">
+Offer ends in <span id="timer">10:00</span>
+</div>
+
+<div class="online">
+🟢 <span id="onlineUsers">10</span> users online
+</div>
+
+<div class="wallet">
+
 <h2>Balance: <span id="balance">0</span>৳</h2>
+
 <button class="addBtn" onclick="openBalance()">Add Balance</button>
-</div><div class="container" id="shop"><div class="card">
+
+</div>
+
+<div class="container" id="shop">
+
+<div class="card">
 <h4>Weekly</h4>
 <p class="price">110৳</p>
 <p class="stock">Stock: <span id="stock1">100</span></p>
 <div class="barBox"><div class="bar" id="bar1"></div></div>
 <button class="orderBtn" onclick="order('Weekly','stock1','bar1',100,110)">Order</button>
-</div><div class="card">
+</div>
+
+<div class="card">
 <h4>Monthly</h4>
 <p class="price">500৳</p>
 <p class="stock">Stock: <span id="stock2">30</span></p>
 <div class="barBox"><div class="bar" id="bar2"></div></div>
 <button class="orderBtn" onclick="order('Monthly','stock2','bar2',30,500)">Order</button>
-</div><div class="card">
+</div>
+
+<div class="card">
 <h4>1240 💎</h4>
 <p class="price">400৳</p>
 <p class="stock">Stock: <span id="stock3">10</span></p>
 <div class="barBox"><div class="bar" id="bar3"></div></div>
 <button class="orderBtn" onclick="order('1240 Diamonds','stock3','bar3',10,400)">Order</button>
-</div><div class="card">
+</div>
+
+<div class="card">
 <h4>2530 💎</h4>
 <p class="price">900৳</p>
 <p class="stock">Stock: <span id="stock4">5</span></p>
 <div class="barBox"><div class="bar" id="bar4"></div></div>
 <button class="orderBtn" onclick="order('2530 Diamonds','stock4','bar4',5,900)">Order</button>
-</div></div><div class="reviews">
+</div>
+
+</div>
+
+<div class="reviews">
 <div class="reviewBox" id="reviewBox">⭐ Great service!</div>
-</div><div class="notify" id="notifyBox">
+</div>
+
+<div class="notify" id="notifyBox">
 <span id="notifyText"></span>
-</div><!-- popup --><div class="popup" id="balancePopup">
-<div class="form"><span class="closeBtn" onclick="closePopup()">✕</span>
+</div>
 
-<h3>Add Balance</h3><input id="amount" placeholder="Enter Amount"><div class="pay">
-<div id="bkash" onclick="selectPay('bkash')">bKash</div>
-<div id="nagad" onclick="selectPay('nagad')">Nagad</div>
-</div><button class="btn green" onclick="nextStep()">Next</button>
-
-<div class="loader" id="loader"></div><div id="step2" style="display:none"><p>Send money to</p><b>01810607626</b>
-
-<button class="btn blue" onclick="copyNumber()">Copy Number</button>
-
-<input id="trx" placeholder="Transaction ID"><button class="btn green" onclick="submitBalance()">Submit</button>
-
-<button class="btn red" onclick="closePopup()">Cancel</button>
-
-</div></div>
-</div><script>
+<script>
 
 let balance=0
 let method=""
 
-/* random names */
+/* fake names */
 
 let names=[
 "Rahim","Karim","Sakib","Jahid","Naim","Rifat","Sohel","Rakib","Tanvir","Sohan",
@@ -358,7 +403,7 @@ let names=[
 "Parvez","Tanzim","Fardin","Hridoy","Arafat","Shahin","Asif","Nadim","Tajim","Sadi"
 ]
 
-/* fake purchase */
+/* fake purchases */
 
 setInterval(()=>{
 let n=names[Math.floor(Math.random()*names.length)]
@@ -385,96 +430,154 @@ reviews[Math.floor(Math.random()*reviews.length)]
 /* timer */
 
 let time=600
+
 setInterval(()=>{
+
 time--
+
 let m=Math.floor(time/60)
+
 let s=time%60
+
 document.getElementById("timer").innerText=m+":"+s
+
 },1000)
 
 /* online */
 
 setInterval(()=>{
+
 document.getElementById("onlineUsers").innerText=
+
 Math.floor(Math.random()*20)+5
+
 },4000)
 
 /* notify */
 
 function showNotify(text){
+
 let box=document.getElementById("notifyBox")
+
 document.getElementById("notifyText").innerText=text
+
 box.style.display="block"
-setTimeout(()=>{box.style.display="none"},2500)
+
+setTimeout(()=>{
+
+box.style.display="none"
+
+},2500)
+
 }
 
 function selectPay(m){
+
 method=m
+
 document.getElementById("bkash").classList.remove("active")
+
 document.getElementById("nagad").classList.remove("active")
+
 document.getElementById(m).classList.add("active")
+
 }
 
 function openBalance(){
+
 document.getElementById("balancePopup").style.display="flex"
+
 }
 
 function closePopup(){
+
 document.getElementById("balancePopup").style.display="none"
+
 }
 
 function nextStep(){
+
 let amount=document.getElementById("amount").value
+
 if(amount<100){
+
 showNotify("Minimum deposit 100৳ required")
+
 return
+
 }
+
 document.getElementById("loader").style.display="block"
+
 setTimeout(()=>{
+
 document.getElementById("loader").style.display="none"
+
 document.getElementById("step2").style.display="block"
+
 },1200)
+
 }
 
 function copyNumber(){
+
 navigator.clipboard.writeText("01810607626")
+
 showNotify("Number copied")
+
 }
 
 function submitBalance(){
+
 let amount=Number(document.getElementById("amount").value)
+
 balance+=amount
+
 document.getElementById("balance").innerText=balance
+
 showNotify("Balance added")
+
 closePopup()
+
 }
 
 function order(pkg,stockId,barId,max,price){
 
 if(balance < price){
+
 showNotify("Insufficient balance")
+
 return
+
 }
 
 balance-=price
+
 document.getElementById("balance").innerText=balance
 
 let stock=document.getElementById(stockId)
+
 let current=parseInt(stock.innerText)
 
 if(current<=0){
+
 showNotify("Out of stock")
+
 return
+
 }
 
 stock.innerText=current-1
 
 let percent=((current-1)/max)*100
+
 document.getElementById(barId).style.width=percent+"%"
 
 showNotify(pkg+" order placed")
 
 }
 
-</script></body>
+</script>
+
+</body>
 </html>
