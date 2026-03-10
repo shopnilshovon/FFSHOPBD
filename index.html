@@ -14,12 +14,12 @@
 body{
 margin:0;
 font-family:Arial;
-color:white;
 background:#020617;
+color:white;
 overflow-x:hidden;
 }
 
-/* particle background */
+/* particles */
 
 .particles span{
 position:fixed;
@@ -27,22 +27,22 @@ width:4px;
 height:4px;
 background:#22c55e;
 border-radius:50%;
-animation:move 10s linear infinite;
-opacity:.6;
+animation:particle 12s linear infinite;
+opacity:.5;
 }
 
-@keyframes move{
+@keyframes particle{
 0%{transform:translateY(100vh)}
 100%{transform:translateY(-10vh)}
 }
 
-/* floating diamonds */
+/* diamonds */
 
 .diamond{
 position:fixed;
 font-size:20px;
-animation:diamondFloat 12s linear infinite;
-opacity:.7;
+animation:diamondFloat 14s linear infinite;
+opacity:.6;
 }
 
 @keyframes diamondFloat{
@@ -58,8 +58,8 @@ font-weight:bold;
 }
 
 .notice{
-text-align:center;
 background:#f97316;
+text-align:center;
 padding:8px;
 }
 
@@ -88,7 +88,7 @@ background:#1e293b;
 border-radius:12px;
 padding:14px;
 text-align:center;
-box-shadow:0 0 12px rgba(34,197,94,.3);
+box-shadow:0 0 10px rgba(34,197,94,.3);
 }
 
 .price{
@@ -104,9 +104,9 @@ color:#facc15;
 
 .progress{
 background:#0f172a;
+height:6px;
 border-radius:6px;
 overflow:hidden;
-height:6px;
 margin-top:6px;
 }
 
@@ -175,9 +175,11 @@ border-radius:6px;
 border:none;
 }
 
+/* ticker */
+
 .ticker{
 position:fixed;
-bottom:70px;
+bottom:80px;
 left:50%;
 transform:translateX(-50%);
 background:#1e293b;
@@ -186,21 +188,52 @@ border-radius:8px;
 font-size:13px;
 }
 
+/* notification */
+
+.notify{
+position:fixed;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+background:#1e293b;
+padding:10px 16px;
+border-radius:10px;
+font-size:13px;
+box-shadow:0 0 12px rgba(34,197,94,.5);
+display:none;
+}
+
+/* bottom nav */
+
 .bottomNav{
 position:fixed;
 bottom:0;
 left:0;
 width:100%;
 display:flex;
+justify-content:space-around;
 background:#020617;
+padding:8px 0;
 border-top:1px solid #334155;
 }
 
 .bottomNav div{
-flex:1;
-text-align:center;
-padding:10px;
+background:#1e293b;
+width:70px;
+height:55px;
+border-radius:12px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 font-size:12px;
+cursor:pointer;
+transition:.3s;
+}
+
+.bottomNav div:hover{
+background:#22c55e;
+transform:translateY(-3px);
 }
 
 </style>
@@ -208,8 +241,6 @@ font-size:12px;
 </head>
 
 <body>
-
-<!-- particles -->
 
 <div class="particles">
 <span style="left:10%"></span>
@@ -219,10 +250,8 @@ font-size:12px;
 <span style="left:90%"></span>
 </div>
 
-<!-- floating diamonds -->
-
 <div class="diamond" style="left:20%">💎</div>
-<div class="diamond" style="left:60%">💎</div>
+<div class="diamond" style="left:50%">💎</div>
 <div class="diamond" style="left:80%">💎</div>
 
 <div class="header">💎 Diamond Shop</div>
@@ -281,7 +310,9 @@ font-size:12px;
 <span id="tickerText"></span>
 </div>
 
-<!-- balance popup -->
+<div class="notify" id="notifyBox">
+💎 <span id="notifyText"></span>
+</div>
 
 <div class="popup" id="balancePopup">
 
@@ -292,10 +323,8 @@ font-size:12px;
 <input id="amount" placeholder="Enter Amount">
 
 <div class="pay">
-
 <div id="bkash" onclick="selectPay('bkash')">bKash</div>
 <div id="nagad" onclick="selectPay('nagad')">Nagad</div>
-
 </div>
 
 <button onclick="nextStep()">Next</button>
@@ -321,25 +350,22 @@ font-size:12px;
 <div class="bottomNav">
 
 <div onclick="scrollTo(0,0)">🏠<br>Home</div>
-
 <div onclick="openBalance()">💰<br>Add</div>
-
 <div onclick="alert('Orders')">📦<br>Orders</div>
-
 <div onclick="alert('Support')">📞<br>Support</div>
 
 </div>
 
 <script>
 
-/* online counter */
+/* online users */
 
 setInterval(()=>{
 let num=Math.floor(Math.random()*30)+5
 document.getElementById("onlineUsers").innerText=num
 },4000)
 
-/* payment select */
+/* payment */
 
 let method=""
 
@@ -367,19 +393,13 @@ function nextStep(){
 let amount=document.getElementById("amount").value
 
 if(amount<100){
-
 alert("Minimum deposit 100৳ required")
-
 return
-
 }
 
 if(method==""){
-
 alert("Select payment method")
-
 return
-
 }
 
 document.getElementById("step2").style.display="block"
@@ -395,12 +415,10 @@ closePopup()
 }
 
 function order(pkg){
-
 alert(pkg+" order placed")
-
 }
 
-/* live buyers */
+/* random buyers */
 
 let names=[
 "Rahim","Karim","Sakib","Rana","Jahid","Sohel","Rubel",
@@ -425,10 +443,20 @@ setInterval(()=>{
 let n=names[Math.floor(Math.random()*names.length)]
 let p=packs[Math.floor(Math.random()*packs.length)]
 
-document.getElementById("tickerText").innerText=
-n+" bought "+p
+document.getElementById("tickerText").innerText=n+" bought "+p
 
+let box=document.getElementById("notifyBox")
+let text=document.getElementById("notifyText")
+
+text.innerText=n+" purchased "+p
+
+box.style.display="block"
+
+setTimeout(()=>{
+box.style.display="none"
 },3000)
+
+},6000)
 
 </script>
 
