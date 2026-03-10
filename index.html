@@ -18,7 +18,6 @@ body{
 margin:0;
 background:#020617;
 color:white;
-overflow-x:hidden;
 }
 
 /* header */
@@ -41,6 +40,8 @@ text-align:center;
 color:#22c55e;
 margin-top:6px;
 }
+
+/* wallet */
 
 .wallet{
 text-align:center;
@@ -74,13 +75,17 @@ background:#1e293b;
 border-radius:14px;
 padding:16px;
 text-align:center;
-box-shadow:0 0 16px rgba(34,197,94,.2);
 }
 
 .price{
 color:#22c55e;
 font-size:20px;
 font-weight:bold;
+}
+
+.stock{
+font-size:12px;
+color:#facc15;
 }
 
 .orderBtn{
@@ -105,7 +110,6 @@ height:100%;
 background:rgba(0,0,0,.8);
 justify-content:center;
 align-items:center;
-z-index:1000;
 }
 
 .form{
@@ -150,7 +154,7 @@ background:#f97316;
 }
 
 .pay div.active{
-transform:scale(1.08);
+transform:scale(1.05);
 box-shadow:0 0 10px white;
 }
 
@@ -169,22 +173,6 @@ color:white;
 .red{background:#ef4444}
 .blue{background:#3b82f6}
 
-/* notification */
-
-.notify{
-position:fixed;
-top:70px;
-left:50%;
-transform:translateX(-50%);
-background:#1e293b;
-padding:12px 18px;
-border-radius:14px;
-font-size:13px;
-box-shadow:0 0 20px rgba(34,197,94,.6);
-display:none;
-z-index:2000;
-}
-
 /* loader */
 
 .loader{
@@ -201,6 +189,21 @@ display:none;
 @keyframes spin{
 0%{transform:rotate(0)}
 100%{transform:rotate(360deg)}
+}
+
+/* notify */
+
+.notify{
+position:fixed;
+top:70px;
+left:50%;
+transform:translateX(-50%);
+background:#1e293b;
+padding:12px 18px;
+border-radius:14px;
+font-size:13px;
+box-shadow:0 0 20px rgba(34,197,94,.6);
+display:none;
 }
 
 /* bottom nav */
@@ -257,7 +260,7 @@ margin-top:10px;
 <div class="notice">Minimum Deposit 100৳</div>
 
 <div class="online">
-🟢 <span id="onlineUsers">12</span> users online
+🟢 <span id="onlineUsers">10</span> users online
 </div>
 
 <div class="wallet">
@@ -273,25 +276,29 @@ margin-top:10px;
 <div class="card">
 <h4>Weekly</h4>
 <p class="price">110৳</p>
-<button class="orderBtn" onclick="order('Weekly')">Order</button>
+<p class="stock">Stock: <span id="stock1">100</span></p>
+<button class="orderBtn" onclick="order('Weekly','stock1')">Order</button>
 </div>
 
 <div class="card">
 <h4>Monthly</h4>
 <p class="price">500৳</p>
-<button class="orderBtn" onclick="order('Monthly')">Order</button>
+<p class="stock">Stock: <span id="stock2">30</span></p>
+<button class="orderBtn" onclick="order('Monthly','stock2')">Order</button>
 </div>
 
 <div class="card">
 <h4>1240 💎</h4>
 <p class="price">400৳</p>
-<button class="orderBtn" onclick="order('1240 Diamonds')">Order</button>
+<p class="stock">Stock: <span id="stock3">10</span></p>
+<button class="orderBtn" onclick="order('1240 Diamonds','stock3')">Order</button>
 </div>
 
 <div class="card">
 <h4>2530 💎</h4>
 <p class="price">900৳</p>
-<button class="orderBtn" onclick="order('2530 Diamonds')">Order</button>
+<p class="stock">Stock: <span id="stock4">5</span></p>
+<button class="orderBtn" onclick="order('2530 Diamonds','stock4')">Order</button>
 </div>
 
 </div>
@@ -353,6 +360,7 @@ margin-top:10px;
 
 let balance=0
 let orders=[]
+let method=""
 
 /* online users */
 
@@ -361,12 +369,13 @@ document.getElementById("onlineUsers").innerText=
 Math.floor(Math.random()*20)+5
 },4000)
 
+/* notify */
+
 function showNotify(text){
 
 let box=document.getElementById("notifyBox")
-let txt=document.getElementById("notifyText")
+document.getElementById("notifyText").innerText=text
 
-txt.innerText=text
 box.style.display="block"
 
 setTimeout(()=>{
@@ -375,7 +384,7 @@ box.style.display="none"
 
 }
 
-let method=""
+/* payment select */
 
 function selectPay(m){
 
@@ -396,6 +405,8 @@ function closePopup(){
 document.getElementById("balancePopup").style.display="none"
 }
 
+/* next step */
+
 function nextStep(){
 
 let amount=document.getElementById("amount").value
@@ -410,14 +421,18 @@ document.getElementById("loader").style.display="block"
 setTimeout(()=>{
 document.getElementById("loader").style.display="none"
 document.getElementById("step2").style.display="block"
-},1500)
+},1200)
 
 }
+
+/* copy number */
 
 function copyNumber(){
 navigator.clipboard.writeText("01810607626")
 showNotify("Number copied")
 }
+
+/* submit deposit */
 
 function submitBalance(){
 
@@ -442,15 +457,17 @@ status:"Pending"
 
 updateHistory()
 
-showNotify("Balance request submitted")
+showNotify("Deposit request submitted")
 
 closePopup()
 
-},1500)
+},1200)
 
 }
 
-function order(pkg){
+/* order */
+
+function order(pkg,stockId){
 
 if(balance<=0){
 
@@ -460,6 +477,20 @@ return
 
 }
 
+let stock=document.getElementById(stockId)
+
+let current=parseInt(stock.innerText)
+
+if(current<=0){
+
+showNotify("Out of stock")
+
+return
+
+}
+
+stock.innerText=current-1
+
 orders.push({
 type:pkg,
 status:"Pending"
@@ -467,9 +498,11 @@ status:"Pending"
 
 updateHistory()
 
-showNotify("Order placed")
+showNotify(pkg+" order placed")
 
 }
+
+/* history */
 
 function updateHistory(){
 
