@@ -9,20 +9,11 @@
 
 <style>
 
-*{box-sizing:border-box}
-
 body{
 margin:0;
 font-family:Arial;
 color:white;
-background:linear-gradient(270deg,#020617,#0f172a,#020617);
-background-size:600% 600%;
-animation:bgMove 12s infinite alternate;
-}
-
-@keyframes bgMove{
-0%{background-position:0% 50%}
-100%{background-position:100% 50%}
+background:#020617;
 }
 
 .header{
@@ -36,19 +27,6 @@ font-weight:bold;
 text-align:center;
 background:#f97316;
 padding:8px;
-font-size:14px;
-}
-
-.liveCounter{
-text-align:center;
-color:#22c55e;
-font-size:13px;
-}
-
-.timerBox{
-text-align:center;
-color:#facc15;
-font-size:13px;
 }
 
 .wallet{
@@ -70,13 +48,6 @@ background:#1e293b;
 border-radius:12px;
 padding:14px;
 text-align:center;
-box-shadow:0 0 12px rgba(0,255,255,0.3);
-transition:.3s;
-}
-
-.card:hover{
-transform:scale(1.05);
-box-shadow:0 0 18px #22c55e;
 }
 
 .price{
@@ -87,50 +58,17 @@ font-weight:bold;
 
 .stock{
 color:#facc15;
-font-size:13px;
 }
 
 button{
 width:100%;
-padding:8px;
-margin-top:8px;
+padding:10px;
 border:none;
 border-radius:6px;
 background:#22c55e;
 color:white;
-font-size:14px;
+margin-top:8px;
 }
-
-table{
-width:100%;
-max-width:480px;
-margin:auto;
-margin-top:15px;
-background:#1e293b;
-border-radius:10px;
-font-size:13px;
-}
-
-th,td{
-padding:8px;
-text-align:center;
-}
-
-/* ticker */
-
-.ticker{
-position:fixed;
-bottom:70px;
-left:50%;
-transform:translateX(-50%);
-background:#1e293b;
-padding:8px 14px;
-border-radius:8px;
-font-size:13px;
-box-shadow:0 0 10px #22c55e;
-}
-
-/* popup */
 
 .popup{
 display:none;
@@ -139,17 +77,16 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,.85);
+background:rgba(0,0,0,.8);
 justify-content:center;
 align-items:center;
-padding:20px;
 }
 
 .form{
 background:#1e293b;
 padding:20px;
-border-radius:12px;
-width:100%;
+border-radius:10px;
+width:90%;
 max-width:320px;
 text-align:center;
 }
@@ -176,48 +113,19 @@ border-radius:6px;
 cursor:pointer;
 }
 
-.pay .active{
-background:#22c55e;
+.active{
+background:#22c55e!important;
 }
 
-/* loader */
-
-.loader{
-display:none;
+.ticker{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.8);
-justify-content:center;
-align-items:center;
-flex-direction:column;
-}
-
-.spinner{
-width:40px;
-height:40px;
-border:4px solid #ddd;
-border-top:4px solid #22c55e;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-0%{transform:rotate(0)}
-100%{transform:rotate(360deg)}
-}
-
-/* trust */
-
-.trust{
-display:flex;
-justify-content:space-around;
-margin:20px auto;
-max-width:480px;
-font-size:12px;
-color:#94a3b8;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:#1e293b;
+padding:8px 14px;
+border-radius:8px;
+font-size:13px;
 }
 
 </style>
@@ -228,15 +136,7 @@ color:#94a3b8;
 
 <div class="header">💎 Diamond Shop</div>
 
-<div class="notice">Limited Offer | Minimum Deposit 100৳</div>
-
-<div class="liveCounter">
-🟢 <span id="onlineUsers">12</span> people buying now
-</div>
-
-<div class="timerBox">
-Offer Ends In: <span id="timer"></span>
-</div>
+<div class="notice">Minimum Deposit 100৳</div>
 
 <div class="wallet">
 
@@ -252,37 +152,29 @@ Offer Ends In: <span id="timer"></span>
 <h4>Weekly</h4>
 <p class="price">110৳</p>
 <p class="stock">Stock: 100</p>
-<button>Order</button>
+<button onclick="order('Weekly')">Order</button>
 </div>
 
 <div class="card">
 <h4>Monthly</h4>
 <p class="price">500৳</p>
 <p class="stock">Stock: 30</p>
-<button>Order</button>
+<button onclick="order('Monthly')">Order</button>
 </div>
 
 <div class="card">
 <h4>1240 💎</h4>
 <p class="price">400৳</p>
 <p class="stock">Stock: 10</p>
-<button>Order</button>
+<button onclick="order('1240 Diamonds')">Order</button>
 </div>
 
 <div class="card">
 <h4>2530 💎</h4>
 <p class="price">900৳</p>
 <p class="stock">Stock: 5</p>
-<button>Order</button>
+<button onclick="order('2530 Diamonds')">Order</button>
 </div>
-
-</div>
-
-<div class="trust">
-
-<div>🔒 Secure Payment</div>
-<div>⚡ Instant Delivery</div>
-<div>⭐ Trusted Service</div>
 
 </div>
 
@@ -300,8 +192,8 @@ Offer Ends In: <span id="timer"></span>
 
 <div class="pay">
 
-<div id="bkash" onclick="selectPay('bKash')">bKash</div>
-<div id="nagad" onclick="selectPay('Nagad')">Nagad</div>
+<div id="bkash" onclick="selectPay('bkash')">bKash</div>
+<div id="nagad" onclick="selectPay('nagad')">Nagad</div>
 
 </div>
 
@@ -309,7 +201,8 @@ Offer Ends In: <span id="timer"></span>
 
 <div id="step2" style="display:none">
 
-<p>Send money to</p>
+<p>Send Money To</p>
+
 <b>01810607626</b>
 
 <input id="trx" placeholder="Transaction ID">
@@ -322,70 +215,7 @@ Offer Ends In: <span id="timer"></span>
 
 </div>
 
-<div class="loader" id="loader">
-
-<div class="spinner"></div>
-<p>Processing...</p>
-
-</div>
-
 <script>
-
-/* online counter */
-
-setInterval(()=>{
-let num=Math.floor(Math.random()*20)+5
-document.getElementById("onlineUsers").innerText=num
-},4000)
-
-/* timer */
-
-let time=3600
-
-setInterval(()=>{
-
-let m=Math.floor(time/60)
-let s=time%60
-
-document.getElementById("timer").innerText=m+"m "+s+"s"
-
-time--
-
-if(time<=0) time=3600
-
-},1000)
-
-/* random names */
-
-let names=[
-Rahim,Karim,Sakib,Rana,Jahid,Sohel,Rubel,
-Arif,Tanvir,Hasan,Nahid,Rakib,Shanto,
-Fahim,Nabil,Imran,Tarek,Masud,Bappy,
-Sohan,Anik,Tushar,Shakil,Rasel,Mahim,
-Rifat,Saif,Joy,Shuvo,Rabby,Tamim,
-Rony,Shuvo,Farhan,Minhaz,Akash,Sifat,
-Siam,Shimul,Rafi,Rafiq,Samir,Sumon,
-Habib,Shahid,Kamrul,Shamim
-]
-
-let packs=[
-"Weekly Membership",
-"1240 Diamonds",
-"2530 Diamonds",
-"Monthly Membership"
-]
-
-setInterval(()=>{
-
-let n=names[Math.floor(Math.random()*names.length)]
-let p=packs[Math.floor(Math.random()*packs.length)]
-
-document.getElementById("tickerText").innerText=
-n+" bought "+p
-
-},5000)
-
-/* balance popup */
 
 let method=""
 
@@ -400,7 +230,7 @@ method=m
 document.getElementById("bkash").classList.remove("active")
 document.getElementById("nagad").classList.remove("active")
 
-document.getElementById(m.toLowerCase()).classList.add("active")
+document.getElementById(m).classList.add("active")
 
 }
 
@@ -424,19 +254,47 @@ document.getElementById("step2").style.display="block"
 
 function submitBalance(){
 
-document.getElementById("loader").style.display="flex"
-
-setTimeout(()=>{
-
-document.getElementById("loader").style.display="none"
-
 alert("Balance request submitted")
 
 document.getElementById("balancePopup").style.display="none"
 
-},1500)
+}
+
+function order(pkg){
+
+alert(pkg+" order placed")
 
 }
+
+/* random buyers */
+
+let names=[
+"Rahim","Karim","Sakib","Rana","Jahid","Sohel","Rubel",
+"Arif","Tanvir","Hasan","Nahid","Rakib","Shanto",
+"Fahim","Nabil","Imran","Tarek","Masud","Bappy",
+"Sohan","Anik","Tushar","Shakil","Rasel","Mahim",
+"Rifat","Saif","Joy","Shuvo","Rabby","Tamim",
+"Rony","Farhan","Minhaz","Akash","Sifat",
+"Siam","Shimul","Rafi","Samir","Sumon",
+"Habib","Shahid","Kamrul","Shamim","Nayeem"
+]
+
+let packs=[
+"Weekly Membership",
+"1240 Diamonds",
+"2530 Diamonds",
+"Monthly Membership"
+]
+
+setInterval(()=>{
+
+let n=names[Math.floor(Math.random()*names.length)]
+let p=packs[Math.floor(Math.random()*packs.length)]
+
+document.getElementById("tickerText").innerText=
+n+" bought "+p
+
+},3000)
 
 </script>
 
